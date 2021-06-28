@@ -1,0 +1,36 @@
+name: Publish release
+
+# Controls when the action will run.
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  on-success:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Build Changelog
+        id: build-changelog
+        uses: mikepenz/release-changelog-builder-action@v1.8.2
+        with:
+          outputFile: "./release-output.md"
+          configuration: ".github/release_notes_config.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set release tag
+        run: |
+          cat ./release-output.md
+
+      - uses: ncipollo/release-action@v1.8.6
+        id: release-step
+        with:
+          allowUpdates: true
+          bodyFile: "./release-output.md"
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}

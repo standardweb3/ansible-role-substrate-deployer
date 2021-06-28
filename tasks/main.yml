@@ -1,0 +1,7 @@
+---
+- name: Substrate | Perform setup
+  import_tasks: install.yml
+  when: substrate_node_setup
+
+- name: Substrate | Perform configuration
+  import_tasks: configure.yml

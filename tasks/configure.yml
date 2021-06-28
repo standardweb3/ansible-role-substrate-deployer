@@ -1,0 +1,46 @@
+---
+- name: Substrate Configure | Systemd Template file
+  template:
+    src: ./templates/substrate-node.service.j2
+    dest: "/etc/systemd/system/{{ substrate_node_bin_name }}.service"
+    owner: "{{ substrate_node_user }}"
+    group: "{{ substrate_node_group }}"
+    mode: "0644"
+  register: node_startup
+
+- name: Substrate Configure | Systemd Daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Substrate Configure | Service restart
+  ansible.builtin.systemd:
+    state: restarted
+    name: "{{ substrate_node_bin_name }}"
+    enabled: yes
+  register: systemd_status
+
+- name: Substrate Configure | Get logs
+  command: |
+    journalctl _SYSTEMD_INVOCATION_ID="{{ systemd_status.status.InvocationID }}" -u "{{ substrate_node_bin_name }}"
+  register: service_logs
+  ignore_errors: true
+  failed_when:
+    - 'service_logs.stderr != ""'
+
+- name: Substrate Configure | Substrate Stdout
+  debug:
+    msg: "{{ service_logs.stdout }}"
+  failed_when:
+    - '"Discovered new external address for our node" not in service_logs.stdout'
+    - '"error" in service_logs.stdout'
+
+- name: Substrate Configure | Verify ports are open
+  wait_for:
+    port: "{{ item }}"
+    timeout: 10
+  when:
+    - "{{ item }}"
+  with_items:
+    - "{{ substrate_node_p2p_port }}"
+    - "{{ substrate_node_rpc_port }}"
+    - "{{ substrate_node_ws_port }}"

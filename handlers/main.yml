@@ -1,0 +1,14 @@
+---
+- name: Daemon Reload
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Substrate Stop
+  ansible.builtin.systemd:
+    state: stopped
+    name: "{{ substrate_node_bin_name }}"
+
+- name: Substrate Start
+  ansible.builtin.systemd:
+    state: started
+    name: "{{ substrate_node_bin_name }}"

@@ -1,0 +1,47 @@
+[Unit]
+Description={{ substrate_node_friendly_name }} {{ substrate_node_chain }} Node
+After=network.target
+
+[Service]
+ExecStart={{ substrate_node_bin_name }} \
+--base-path {{ substrate_node_data_dir }} \
+--chain {{ substrate_node_chain }} \
+--port {{ substrate_node_p2p_port }} \
+{% if substrate_node_ws_port is defined %}
+--ws-port {{ substrate_node_ws_port }} \
+{% endif %}
+{% if substrate_node_ws_external is true and substrate_node_validator is false %}
+--ws-external \
+{% endif %}
+{% if substrate_node_rpc_port is defined %}
+--rpc-port {{ substrate_node_rpc_port }} \
+{% endif %}
+{% if substrate_node_rpc_port is true  and substrate_node_validator is false %}
+--rpc-external \
+{% endif %}
+{% if substrate_node_prometheus_disable is true %}
+--no-prometheus \
+{% endif %}
+{% if substrate_node_rpc_cors is defined %}
+--rpc-cors {{ substrate_node_rpc_cors }} \
+{% endif %}
+--name "{{ substrate_node_friendly_name }}" \
+{% if substrate_node_validator is defined %}
+--validator
+{% endif %}
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ substrate_node_bin_name }}
+WorkingDirectory={{ substrate_node_bin_dir }}
+User={{ substrate_node_user }}
+Group={{ substrate_node_group }}
+{% if substrate_node_restart_always is defined %}
+Restart=always
+{% elif substrate_node_custom_restart is defined %}
+Restart={{ substrate_node_custom_restart }}
+{% endif %}
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target

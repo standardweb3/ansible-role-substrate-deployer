@@ -1,0 +1,17 @@
+galaxy_info:
+  role_name: substrate-deployer
+  author: tech@standard.tech
+  description: Deploys Standard Substrate node.
+  company: Standard Protocol
+
+  license: MIT
+
+  min_ansible_version: 2.7
+
+  galaxy_tags:
+    - standard
+    - substrate
+    - node
+    - deployment
+
+  dependencies: []
