@@ -59,6 +59,12 @@
         group: "{{ substrate_node_group }}"
         remote_src: yes
         backup: true
+        mode: a+x
         # mode: '0644'
+
+    - name: Substrate Install | Output file
+      debug:
+        msg: "{{ release_download.backup_file }}"
+      when: release_download.changed
   when:
     - '".tar.gz" in substrate_node_source'
