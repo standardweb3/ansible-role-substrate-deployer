@@ -8,26 +8,25 @@
     mode: "0644"
   register: node_startup
 
-- name: Substrate Configure | Systemd Daemon reload
+- name: Substrate Configure | Service start
   ansible.builtin.systemd:
-    daemon_reload: yes
-
-- name: Substrate Configure | Service restart
-  ansible.builtin.systemd:
-    state: restarted
     name: "{{ substrate_node_bin_name }}"
+    state: restarted
     enabled: yes
+
+- name: Substrate Configure | Get service invocation ID
+  command: "systemctl show -p InvocationID --value {{ substrate_node_bin_name }}"
   register: systemd_status
 
 - name: Substrate Configure | Get logs
   command: |
-    journalctl _SYSTEMD_INVOCATION_ID="{{ systemd_status.status.InvocationID }}" -u "{{ substrate_node_bin_name }}"
+    journalctl _SYSTEMD_INVOCATION_ID="{{ systemd_status.stdout }}" + INVOCATION_ID="{{ systemd_status.stdout }}"
   register: service_logs
   ignore_errors: true
   failed_when:
     - 'service_logs.stderr != ""'
 
-- name: Substrate Configure | Substrate Stdout
+- name: Substrate Configure | Service stdout
   debug:
     msg: "{{ service_logs.stdout }}"
   failed_when:
@@ -44,3 +43,4 @@
     - "{{ substrate_node_p2p_port }}"
     - "{{ substrate_node_rpc_port }}"
     - "{{ substrate_node_ws_port }}"
+    - "{{ substrate_node_prometheus_port }}"

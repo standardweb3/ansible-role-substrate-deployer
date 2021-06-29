@@ -30,3 +30,4 @@
 - name: Substrate Install | Output file
   debug:
     msg: "{{ release_download.backup_file }}"
+  when: release_download.changed
