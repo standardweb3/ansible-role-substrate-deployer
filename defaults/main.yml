@@ -20,6 +20,7 @@ substrate_node_restart_always: true
 substrate_node_p2p_port: 30333
 substrate_node_rpc_port: 9933
 substrate_node_rpc_external: false
+# substrate_node_rpc_methods: Safe
 substrate_node_ws_port: 9944
 substrate_node_ws_external: false
 substrate_node_prometheus_port: 9615
