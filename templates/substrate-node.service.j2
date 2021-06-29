@@ -16,17 +16,26 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_rpc_port is defined %}
 --rpc-port {{ substrate_node_rpc_port }} \
 {% endif %}
-{% if substrate_node_rpc_port is true  and substrate_node_validator is false %}
+{% if substrate_node_rpc_external is true  and substrate_node_validator is false %}
 --rpc-external \
-{% endif %}
-{% if substrate_node_prometheus_disable is true %}
---no-prometheus \
 {% endif %}
 {% if substrate_node_rpc_cors is defined %}
 --rpc-cors {{ substrate_node_rpc_cors }} \
 {% endif %}
+{% if substrate_node_prometheus_disable is true %}
+--no-prometheus \
+{% endif %}
+{% if substrate_node_prometheus_port is defined and substrate_node_prometheus_disable is not true %}
+--prometheus-port {{ substrate_node_prometheus_port }} \
+{% endif %}
+{% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}
+--prometheus-external \
+{% endif %}
 --name "{{ substrate_node_friendly_name }}" \
-{% if substrate_node_validator is defined %}
+{% if substrate_node_pruning is defined %}
+--pruning {{ substrate_node_pruning }}
+{% endif %}
+{% if substrate_node_validator is true %}
 --validator
 {% endif %}
 

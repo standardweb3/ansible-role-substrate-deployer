@@ -1,7 +1,7 @@
 ---
 substrate_node_setup: true
 # can set to 'latest'
-substrate_node_version: latest
+substrate_node_version: 0.1.0
 substrate_node_source: "https://github.com/digitalnativeinc/standard-substrate/releases/download/{{ substrate_node_version }}/{{ substrate_node_bin_name }}-{{ ansible_system | lower }}-{{ ansible_architecture }}"
 substrate_node_releases: "https://api.github.com/repos/digitalnativeinc/standard-substrate/releases/latest"
 substrate_node_selinux_enabled: false
@@ -21,6 +21,9 @@ substrate_node_rpc_port: 9933
 substrate_node_rpc_external: false
 substrate_node_ws_port: 9944
 substrate_node_ws_external: false
+substrate_node_prometheus_port: 9615
 substrate_node_prometheus_disable: false
+substrate_node_prometheus_external: false
+# substrate_node_pruning: "archive" | "constrained"
 # A comma-separated list of origins
-substrate_node_rpc_cors: "localhost,https://polkadot.js.org"
+# substrate_node_rpc_cors: "localhost,https://polkadot.js.org" | "all"
