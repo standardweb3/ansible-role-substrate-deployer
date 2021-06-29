@@ -5,3 +5,4 @@
 
 - name: Substrate | Perform configuration
   import_tasks: configure.yml
+  when: substrate_node_configure

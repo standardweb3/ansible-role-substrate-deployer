@@ -17,15 +17,36 @@
     substrate_node_version: "{{ release.tag }}"
   when: substrate_node_version == 'latest'
 
-- name: Substrate Install | Download release
-  get_url:
-    url: "{{ substrate_node_source }}"
-    dest: "{{ substrate_node_bin_dir }}/{{ substrate_node_bin_name }}"
-    owner: "{{ substrate_node_user }}"
-    group: "{{ substrate_node_group }}"
-    mode: a+x
-    backup: true
-  register: release_download
+- name: Substrate Install | Binary release download
+  block:
+    - name: Substrate Install | Download release
+      get_url:
+        url: "{{ substrate_node_source }}"
+        dest: "{{ substrate_node_bin_dir }}/{{ substrate_node_bin_name }}"
+        owner: "{{ substrate_node_user }}"
+        group: "{{ substrate_node_group }}"
+        mode: a+x
+        backup: true
+      register: release_download
+  when:
+    - '".tar.gz" not in substrate_node_source'
+
+- name: Substrate Install | Archive release download
+  block:
+    - name: Substrate Install | Unarchive a file that needs to be downloaded
+      ansible.builtin.unarchive:
+        src: "{{ substrate_node_source }}"
+        dest: "/tmp/{{ substrate_node_bin_name }}"
+        remote_src: yes
+        owner: "{{ substrate_node_user }}"
+        group: "{{ substrate_node_group }}"
+      register: release_download
+
+    - name: Substrate Install | Archive details
+      debug:
+        var: release_download
+  when:
+    - '".tar.gz" in substrate_node_source'
 
 - name: Substrate Install | Output file
   debug:
