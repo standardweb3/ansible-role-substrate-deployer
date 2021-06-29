@@ -15,7 +15,7 @@ substrate_node_use_root: true
 substrate_node_use_existing_user: true
 substrate_node_user: "standard"
 substrate_node_group: "standard"
-substrate_node_chain: "opportunity"
+# substrate_node_chain: "opportunity"
 substrate_node_restart_always: true
 substrate_node_p2p_port: 30333
 substrate_node_rpc_port: 9933

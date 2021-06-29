@@ -5,8 +5,10 @@ After=network.target
 [Service]
 ExecStart={{ substrate_node_bin_name }} \
 --base-path {{ substrate_node_data_dir }} \
---chain {{ substrate_node_chain }} \
 --port {{ substrate_node_p2p_port }} \
+{% if substrate_node_chain is defined %}
+--chain {{ substrate_node_chain }} \
+{% endif %}
 {% if substrate_node_ws_port is defined %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
