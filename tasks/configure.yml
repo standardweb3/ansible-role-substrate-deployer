@@ -15,6 +15,11 @@
     state: restarted
     enabled: yes
 
+- name: Substrate Configure | Wait for service start
+  wait_for:
+    port: "{{ substrate_node_p2p_port }}"
+    timeout: 10
+
 - name: Substrate Configure | Get service invocation ID
   command: "systemctl show -p InvocationID --value {{ substrate_node_bin_name }}"
   register: systemd_status
