@@ -57,7 +57,7 @@
 
     - name: Substrate Install | Archive details
       debug:
-        var: release_download
+        var: "{{ release_download.files[0] }}"
 
     - name: Substrate Install | Move file
       ansible.builtin.copy:
