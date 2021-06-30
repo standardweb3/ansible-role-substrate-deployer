@@ -57,17 +57,18 @@
 
     - name: Substrate Install | Archive details
       debug:
-        var: release_download.dest
+        var: release_download
 
     - name: Substrate Install | Move file
       ansible.builtin.copy:
-        src: "{{ release_download.dest }}/plasm"
-        dest: "{{ substrate_node_bin_dir }}/{{ substrate_node_bin_name }}"
+        src: "{{ release_download.dest }}plasm"
+        dest: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         remote_src: yes
         backup: true
         mode: a+x
+      register: release_move
 
     - name: Recursively remove directory
       ansible.builtin.file:
@@ -76,7 +77,7 @@
 
     - name: Substrate Install | Backup file location
       debug:
-        msg: "{{ release_download.backup_file }}"
-      when: release_download.changed
+        msg: "{{ release_move.backup_file }}"
+      when: release_move.changed
   when:
     - '".tar.gz" in substrate_node_source'
