@@ -6,37 +6,40 @@ After=network.target
 ExecStart={{ substrate_node_bin_name }} \
 --base-path {{ substrate_node_data_dir }} \
 --port {{ substrate_node_p2p_port }} \
-{% if substrate_node_chain is defined %}
+{% if substrate_node_chain | length %}
 --chain {{ substrate_node_chain }} \
 {% endif %}
-{% if substrate_node_ws_port is defined %}
+{% if substrate_node_bootnodes | length %}
+--bootnodes {{ substrate_node_bootnodes }} \
+{% endif %}
+{% if substrate_node_ws_port | length %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
 {% if substrate_node_ws_external is true and substrate_node_validator is false %}
 --ws-external \
 {% endif %}
-{% if substrate_node_rpc_port is defined %}
+{% if substrate_node_rpc_port | length %}
 --rpc-port {{ substrate_node_rpc_port }} \
 {% endif %}
 {% if substrate_node_rpc_external is true  and substrate_node_validator is false %}
 --rpc-external \
 {% endif %}
-{% if substrate_node_rpc_cors is defined %}
+{% if substrate_node_rpc_cors | length %}
 --rpc-cors {{ substrate_node_rpc_cors }} \
 {% endif %}
-{% if substrate_node_rpc_methods is defined %}
+{% if substrate_node_rpc_methods | length %}
 --rpc-methods {{ substrate_node_rpc_methods }} \
 {% endif %}
 {% if substrate_node_prometheus_disable is true %}
 --no-prometheus \
 {% endif %}
-{% if substrate_node_prometheus_port is defined and substrate_node_prometheus_disable is not true %}
+{% if substrate_node_prometheus_disable is not true %}
 --prometheus-port {{ substrate_node_prometheus_port }} \
 {% endif %}
 {% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}
 --prometheus-external \
 {% endif %}
-{% if substrate_node_pruning is defined %}
+{% if substrate_node_pruning | length %}
 --pruning {{ substrate_node_pruning }} \
 {% endif %}
 {% if substrate_node_validator is true %}
