@@ -1,12 +1,14 @@
 [Unit]
-Description={{ substrate_node_friendly_name }} {{ substrate_node_chain }} Node
+Description={{ substrate_node_friendly_name }} Node
 After=network.target
 
 [Service]
 ExecStart={{ substrate_node_bin_name }} \
 --base-path {{ substrate_node_data_dir }} \
---chain {{ substrate_node_chain }} \
 --port {{ substrate_node_p2p_port }} \
+{% if substrate_node_chain is defined %}
+--chain {{ substrate_node_chain }} \
+{% endif %}
 {% if substrate_node_ws_port is defined %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
@@ -22,6 +24,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_rpc_cors is defined %}
 --rpc-cors {{ substrate_node_rpc_cors }} \
 {% endif %}
+{% if substrate_node_rpc_methods is defined %}
+--rpc-methods {{ substrate_node_rpc_methods }} \
+{% endif %}
 {% if substrate_node_prometheus_disable is true %}
 --no-prometheus \
 {% endif %}
@@ -31,13 +36,13 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}
 --prometheus-external \
 {% endif %}
---name "{{ substrate_node_friendly_name }}" \
 {% if substrate_node_pruning is defined %}
---pruning {{ substrate_node_pruning }}
+--pruning {{ substrate_node_pruning }} \
 {% endif %}
 {% if substrate_node_validator is true %}
---validator
+--validator \
 {% endif %}
+--name "{{ substrate_node_friendly_name }}"
 
 StandardOutput=syslog
 StandardError=syslog

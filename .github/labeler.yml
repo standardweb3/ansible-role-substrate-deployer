@@ -1,0 +1,12 @@
+test:
+  - tests/**/*
+
+vars:
+  - vars/**/*
+  - defaults/**/*
+
+core:
+  - tasks/**/*
+
+actions:
+  - .github/**/*

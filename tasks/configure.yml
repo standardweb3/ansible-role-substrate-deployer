@@ -11,8 +11,13 @@
 - name: Substrate Configure | Service start
   ansible.builtin.systemd:
     name: "{{ substrate_node_bin_name }}"
+    daemon_reload: yes
     state: restarted
     enabled: yes
+
+- name: Substrate Configure | Wait for service start
+  pause:
+    seconds: 5
 
 - name: Substrate Configure | Get service invocation ID
   command: "systemctl show -p InvocationID --value {{ substrate_node_bin_name }}"
@@ -38,7 +43,7 @@
     port: "{{ item }}"
     timeout: 10
   when:
-    - "{{ item }}"
+    - item
   with_items:
     - "{{ substrate_node_p2p_port }}"
     - "{{ substrate_node_rpc_port }}"
