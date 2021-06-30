@@ -57,11 +57,11 @@
 
     - name: Substrate Install | Archive details
       debug:
-        var: "{{ release_download.files[0] }}"
+        msg: "{{ release_download.files[0] }}"
 
     - name: Substrate Install | Move file
       ansible.builtin.copy:
-        src: "{{ release_download.dest }}plasm"
+        src: "{{ release_download.dest }}{{ release_download.files[0] }}"
         dest: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
