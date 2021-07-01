@@ -3,6 +3,7 @@ galaxy_info:
   author: tech@standard.tech
   description: Deploys Standard Substrate node.
   company: Standard Protocol
+  issue_tracker_url: https://github.com/digitalnativeinc/ansible-role-substrate-deployer/issues
 
   license: MIT
 
