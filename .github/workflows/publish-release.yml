@@ -24,11 +24,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set release tag
+      - name: Get output
         run: |
           cat ./release-output.md
 
-      - uses: ncipollo/release-action@v1.8.6
+      - name: Publish to Ansible Galaxy
+        uses: robertdebock/galaxy-action@1.1.1
+        with:
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
+
+      - name: Create release
+        uses: ncipollo/release-action@v1.8.6
         id: release-step
         with:
           allowUpdates: true

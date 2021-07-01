@@ -1,6 +1,8 @@
+{{ ansible_managed | comment }}
+
 [Unit]
 Description={{ substrate_node_friendly_name }} Node
-After=network.target
+After=network-online.target
 
 [Service]
 ExecStart={{ substrate_node_bin_name }} \
@@ -51,6 +53,7 @@ StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier={{ substrate_node_bin_name }}
 WorkingDirectory={{ substrate_node_bin_dir }}
+Type=simple
 User={{ substrate_node_user }}
 Group={{ substrate_node_group }}
 {% if substrate_node_restart_always is defined %}

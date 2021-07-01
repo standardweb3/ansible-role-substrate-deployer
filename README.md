@@ -4,6 +4,8 @@
 
 This role deploys and sets up Substrate Node on a target Virtual Machine.
 
+**Note:** This role is still in active development. There may be unidentified issues and the role variables may change as development continues.
+
 ## Requirements
 
 - Ansible >= 2.7 (It might work on previous versions, but we cannot guarantee it)
@@ -41,7 +43,13 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `substrate_node_prometheus_disable`  | `false`                  | Specify if we want to disable Prometheus endpoint.                              |
 | `substrate_node_prometheus_external` | `false`                  | Specify if we want to open up Prometheus outside of localhost/polkadot.js.      |
 
-### Playbook
+## Installation
+
+### Ansible Galaxy
+
+Use `ansible-galaxy install <>` to install the latest stable release of the role on your system.
+
+### Requirements file
 
 Add it to the requirements file:
 
@@ -49,7 +57,7 @@ Add it to the requirements file:
 roles:
   - name: substrate_deployer
     src: https://github.com/digitalnativeinc/ansible-role-substrate-deployer.git
-    version: 0.0.1
+    version: 0.1.4
 ```
 
 Install requirements:
@@ -57,6 +65,8 @@ Install requirements:
 ```bash
 ansible-galaxy install -r requirements.yml
 ```
+
+## Playbook
 
 Use it in a playbook as follows:
 

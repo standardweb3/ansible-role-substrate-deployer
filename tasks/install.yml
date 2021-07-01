@@ -28,6 +28,9 @@
         mode: a+x
         backup: true
       register: release_download
+      until: release_download is succeeded
+      retries: 5
+      delay: 2
 
     - name: Substrate Install | Backup file location
       debug:
