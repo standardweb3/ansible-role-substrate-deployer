@@ -25,12 +25,13 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `substrate_node_version`             | `0.0.9`                  | Version of the release to download and use. Also accepts latest as parameter.   |
 | `substrate_node_bin_dir`             | `/usr/local/bin/`        | Folder where binary will be put.                                                |
 | `substrate_node_bin_name`            | `opportunity-standalone` | Name of the binary and service to use.                                          |
+| `substrate_node_logging`             | `syslog`                 | Logging to use with systemd - can be 'syslog' or 'file'.                        |
 | `substrate_node_validator`           | `false`                  | Whether node is acting as a validator                                           |
 | `substrate_node_bootnodes`           | ``                       | Supply a list of bootnodes if required                                          |
 | `substrate_node_friendly_name`       | `null`                   | Name which is used by the Telemetry service.                                    |
 | `substrate_node_data_dir`            | `/data`                  | Data directory in which chain state will be stored.                             |
 | `substrate_node_use_root`            | `true`                   | Whether to use root as a Linux user for permissions/running binary.             |
-| `substrate_node_runing`              | ``                       | Pruning mode to use - archive or constained                                     |
+| `substrate_node_pruning`             | ``                       | Pruning mode to use - archive or constained                                     |
 | `substrate_node_chain`               | `opportunity`            | Chain to use by the node.                                                       |
 | `substrate_node_p2p_port`            | `30333`                  | libp2p port used by the node.                                                   |
 | `substrate_node_rpc_port`            | `9933`                   | HTTP RPC port used by the node.                                                 |
