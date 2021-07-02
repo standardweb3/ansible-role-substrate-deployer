@@ -12,6 +12,8 @@ substrate_node_validator: false
 substrate_node_bootnodes: ""
 substrate_node_friendly_name: "Standard Validator"
 substrate_node_data_dir: "/data"
+# substrate_node_logging: syslog | "file"
+substrate_node_logging: "syslog"
 substrate_node_use_root: true
 substrate_node_use_existing_user: true
 # example: substrate_node_pruning: "archive" | "constrained"

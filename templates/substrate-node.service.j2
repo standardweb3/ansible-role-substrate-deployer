@@ -49,9 +49,15 @@ ExecStart={{ substrate_node_bin_name }} \
 {% endif %}
 --name "{{ substrate_node_friendly_name }}"
 
+{% if substrate_node_logging == 'file' %}
+StandardOutput=append:/var/log/{{ substrate_node_bin_name }}/stdout.log
+StandardError=append:/var/log/{{ substrate_node_bin_name }}/stderr.log
+{% elif substrate_node_custom_restart == 'syslog' %}
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier={{ substrate_node_bin_name }}
+SyslogIdentifier=​{{ substrate_node_bin_name }}
+{% endif %}
+
 WorkingDirectory={{ substrate_node_bin_dir }}
 Type=simple
 User={{ substrate_node_user }}

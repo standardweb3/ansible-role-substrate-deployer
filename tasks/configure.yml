@@ -1,4 +1,13 @@
 ---
+- name: Substrate Configure | Create log directory
+  ansible.builtin.file:
+    path: "/var/log/{{ substrate_node_bin_name }}"
+    state: directory
+    owner: "{{ substrate_node_user }}"
+    group: adm
+    mode: "0640"
+  when: substrate_node_logging == 'file'
+
 - name: Substrate Configure | Systemd Template file
   template:
     src: ./templates/substrate-node.service.j2
