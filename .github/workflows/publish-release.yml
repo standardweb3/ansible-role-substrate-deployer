@@ -23,7 +23,7 @@ jobs:
           outputFile: "./release-output.md"
           configuration: ".github/release_notes_config.json"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Get output
         run: |
