@@ -47,18 +47,27 @@
       failed_when:
         - '"Discovered new external address for our node" not in service_logs.stdout'
         - '"error" in service_logs.stdout'
+      tags:
+        - always
   when: substrate_node_logging == "syslog"
 
 - block:
-    - name: Substrate Configure | Cat
+    - name: Substrate Configure | Output logs
       command: "tail -n 100 {{ item }}"
       with_items:
         - /var/log/{{ substrate_node_bin_name }}/stderr.log
+        - /var/log/{{ substrate_node_bin_name }}/stdout.log
       register: service_logs
       failed_when:
         - '"Discovered new external address for our node" not in service_logs.stdout'
         - '"error" in service_logs.stdout'
 
+    - name: Substrate Configure | Get logs
+      debug:
+        msg: "{{ item.stdout }}"
+      tags:
+        - always
+      with_items: "{{ service_logs['results'] }}"
   when: substrate_node_logging == "file"
 
 - name: Substrate Configure | Verify ports are open
