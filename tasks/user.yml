@@ -25,7 +25,7 @@
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         mode: 0750
-        recurse: yes
+        recurse: true
   when:
     - not substrate_node_use_existing_user
     - not substrate_node_use_root
@@ -35,7 +35,7 @@
       ansible.builtin.user:
         name: "{{ substrate_node_user }}"
         state: absent
-        remove: yes
+        remove: true
 
     - name: Substrate Group | Remove group
       ansible.builtin.group:

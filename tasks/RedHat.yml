@@ -5,13 +5,13 @@
       apt:
         name: glibc
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Substrate RedHat | Configure SELinux for substrate node
       ansible.posix.seboolean:
         name:
         state: true
-        persistent: yes
+        persistent: true
   when:
     - substrate_node_selinux_enabled
     - substrate_node_group != 'root'
