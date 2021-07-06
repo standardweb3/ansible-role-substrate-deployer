@@ -26,6 +26,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `substrate_node_bin_dir`             | `/usr/local/bin/`        | Folder where binary will be put.                                                |
 | `substrate_node_bin_name`            | `opportunity-standalone` | Name of the binary and service to use.                                          |
 | `substrate_node_logging`             | `syslog`                 | Logging to use with systemd - can be 'syslog' or 'file'.                        |
+| `substrate_node_restart`             | `always`                 | Restart option for systemd service.                                             |
 | `substrate_node_validator`           | `false`                  | Whether node is acting as a validator                                           |
 | `substrate_node_bootnodes`           | ``                       | Supply a list of bootnodes if required                                          |
 | `substrate_node_friendly_name`       | `null`                   | Name which is used by the Telemetry service.                                    |

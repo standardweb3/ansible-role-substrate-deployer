@@ -12,3 +12,6 @@
   ansible.builtin.systemd:
     state: started
     name: "{{ substrate_node_bin_name }}"
+
+- name: Run Logrotate
+  command: "logrotate -f /etc/logrotate.d/{{ substrate_node_bin_name }}"

@@ -35,7 +35,7 @@
     - name: Substrate Install | Backup file location
       debug:
         msg: "{{ release_download.backup_file }}"
-      when: release_download.changed
+      when: release_download.backup_file is defined
   when:
     - '".tar.gz" not in substrate_node_source'
 

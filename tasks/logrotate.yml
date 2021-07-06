@@ -1,0 +1,36 @@
+---
+- name: Substrate Logrotate | Install logrotate (Alpine Linux)
+  apk:
+    name: logrotate
+  when: ansible_facts['os_family'] == "Alpine"
+
+- name: Substrate Logrotate | Install logrotate (Debian/Ubuntu)
+  apt:
+    name: logrotate
+    state: present
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Substrate Logrotate | Install logrotate (Amazon Linux/CentOS/Oracle Linux/RHEL)
+  yum:
+    name: logrotate
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Substrate Logrotate | Set up logrotate (SLES)
+  block:
+    - name: Substrate Logrotate | Configure logrotate repository (SLES)
+      zypper_repository:
+        repo: https://download.opensuse.org/repositories/openSUSE:Leap:42.1/standard/openSUSE:Leap:42.1.repo
+
+    - name: Substrate Logrotate | Install Logrotate (SLES)
+      zypper:
+        name: logrotate
+        state: present
+  when: ansible_facts['os_family'] == "Suse"
+
+- name: Substrate Logrotate | Create logrotate config
+  template:
+    src: logrotate.j2
+    dest: "/etc/logrotate.d/{{ substrate_node_bin_name }}"
+    mode: 0644
+  notify: Run Logrotate

@@ -62,10 +62,10 @@ WorkingDirectory={{ substrate_node_bin_dir }}
 Type=simple
 User={{ substrate_node_user }}
 Group={{ substrate_node_group }}
-{% if substrate_node_restart_always is defined %}
+{% if substrate_node_restart == 'always' %}
 Restart=always
-{% elif substrate_node_custom_restart is defined %}
-Restart={{ substrate_node_custom_restart }}
+{% elif substrate_node_restart != 'always' %}
+Restart={{ substrate_node_restart }}
 {% endif %}
 RestartSec=120
 
