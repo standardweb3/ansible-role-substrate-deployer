@@ -1,5 +1,6 @@
 galaxy_info:
-  role_name: substrate-deployer
+  role_name: substrate_deployer
+  namespace: standardtech_bot
   author: tech@standard.tech
   description: Deploys Standard Substrate node.
   company: Standard Protocol
@@ -8,6 +9,20 @@ galaxy_info:
   license: MIT
 
   min_ansible_version: 2.7
+
+  platforms:
+    - name: Alpine
+      versions:
+        - any
+    - name: Debian
+      versions:
+        - buster
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+        - groovy
 
   galaxy_tags:
     - standard

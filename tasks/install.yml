@@ -45,7 +45,7 @@
       ansible.builtin.unarchive:
         src: "{{ substrate_node_source }}"
         dest: "/tmp/"
-        remote_src: yes
+        remote_src: true
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         list_files: true
@@ -57,7 +57,7 @@
         dest: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
-        remote_src: yes
+        remote_src: true
         backup: true
         mode: a+x
       register: release_move

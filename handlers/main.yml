@@ -1,7 +1,7 @@
 ---
 - name: Daemon Reload
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Substrate Stop
   ansible.builtin.systemd:

@@ -20,9 +20,9 @@
 - name: Substrate Configure | Service start
   ansible.builtin.systemd:
     name: "{{ substrate_node_bin_name }}"
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
-    enabled: yes
+    enabled: true
 
 - name: Substrate Configure | Wait for service start
   pause:
