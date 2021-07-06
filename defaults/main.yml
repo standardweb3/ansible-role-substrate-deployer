@@ -12,7 +12,7 @@ substrate_node_validator: false
 substrate_node_bootnodes: ""
 substrate_node_friendly_name: "Standard Validator"
 substrate_node_data_dir: "/data"
-# substrate_node_logging: syslog | "file"
+# substrate_node_logging: "syslog" | "file"
 substrate_node_logging: "syslog"
 substrate_node_use_root: true
 substrate_node_use_existing_user: true
@@ -22,7 +22,8 @@ substrate_node_user: "standard"
 substrate_node_group: "standard"
 # example: substrate_node_chain: "opportunity"
 substrate_node_chain: ""
-substrate_node_restart_always: true
+# substrate_node_restart: "always" | "on-failure"
+substrate_node_restart: "always"
 substrate_node_p2p_port: 30333
 substrate_node_rpc_port: 9933
 substrate_node_rpc_external: false
@@ -35,3 +36,16 @@ substrate_node_ws_external: false
 substrate_node_prometheus_port: 9615
 substrate_node_prometheus_disable: false
 substrate_node_prometheus_external: false
+substrate_node_logrotate_conf_enable: true
+substrate_node_logrotate_conf:
+  paths:
+    - "/var/log/{{ substrate_node_bin_name }}/*.log"
+  options:
+    - daily
+    - missingok
+    - rotate 14
+    - compress
+    - delaycompress
+    - notifempty
+    - create 0644 {{ substrate_node_user }} adm
+    - sharedscripts

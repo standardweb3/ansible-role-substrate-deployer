@@ -16,33 +16,38 @@ This role deploys and sets up Substrate Node on a target Virtual Machine.
 
 ## Role Variables
 
+Enable logrotate config for log files. Requires `substrate_node_logging` to be set to `file` to work.
+
 All variables which can be overridden are stored in [defaults/main.yml](defaults/main.yml) and are listed in the table below.
 
-| Name                                 | Default Value            | Description                                                                     |
-| ------------------------------------ | ------------------------ | ------------------------------------------------------------------------------- |
-| `substrate_node_setup`               | `true`                   | Set if you want to download release and replace it with existing if it differs. |
-| `substrate_node_configure`           | `true`                   | Set if you want to do configuration part.                                       |
-| `substrate_node_version`             | `0.0.9`                  | Version of the release to download and use. Also accepts latest as parameter.   |
-| `substrate_node_bin_dir`             | `/usr/local/bin/`        | Folder where binary will be put.                                                |
-| `substrate_node_bin_name`            | `opportunity-standalone` | Name of the binary and service to use.                                          |
-| `substrate_node_logging`             | `syslog`                 | Logging to use with systemd - can be 'syslog' or 'file'.                        |
-| `substrate_node_validator`           | `false`                  | Whether node is acting as a validator                                           |
-| `substrate_node_bootnodes`           | ``                       | Supply a list of bootnodes if required                                          |
-| `substrate_node_friendly_name`       | `null`                   | Name which is used by the Telemetry service.                                    |
-| `substrate_node_data_dir`            | `/data`                  | Data directory in which chain state will be stored.                             |
-| `substrate_node_use_root`            | `true`                   | Whether to use root as a Linux user for permissions/running binary.             |
-| `substrate_node_pruning`             | ``                       | Pruning mode to use - archive or constained                                     |
-| `substrate_node_chain`               | `opportunity`            | Chain to use by the node.                                                       |
-| `substrate_node_p2p_port`            | `30333`                  | libp2p port used by the node.                                                   |
-| `substrate_node_rpc_port`            | `9933`                   | HTTP RPC port used by the node.                                                 |
-| `substrate_node_rpc_external`        | `false`                  | Specify if we want to open up HTTP RPC outside of localhost/polkadot.js.        |
-| `substrate_node_ws_port`             | `9944`                   | WebSocket port used by the node.                                                |
-| `substrate_node_ws_external`         | `false`                  | Specify if we want to open up WebSocket RPC outside of localhost/polkadot.js.   |
-| `substrate_node_rpc_cors`            | ``                       | Specify list of origins for external RPCs or 'all'.                             |
-| `substrate_node_rpc_methods`         | ``                       | Specify RPC mode - Auto, Safe, Unsafe.                                          |
-| `substrate_node_prometheus_port`     | `9615`                   | Specify which port we want to use for Prometheus endpoint.                      |
-| `substrate_node_prometheus_disable`  | `false`                  | Specify if we want to disable Prometheus endpoint.                              |
-| `substrate_node_prometheus_external` | `false`                  | Specify if we want to open up Prometheus outside of localhost/polkadot.js.      |
+| Name                                   | Default Value            | Description                                                                       |
+| -------------------------------------- | ------------------------ | --------------------------------------------------------------------------------- |
+| `substrate_node_setup`                 | `true`                   | Set if you want to download release and replace it with existing if it differs.   |
+| `substrate_node_configure`             | `true`                   | Set if you want to do configuration part.                                         |
+| `substrate_node_version`               | `0.0.9`                  | Version of the release to download and use. Also accepts latest as parameter.     |
+| `substrate_node_bin_dir`               | `/usr/local/bin/`        | Folder where binary will be put.                                                  |
+| `substrate_node_bin_name`              | `opportunity-standalone` | Name of the binary and service to use.                                            |
+| `substrate_node_logging`               | `syslog`                 | Logging to use with systemd - can be 'syslog' or 'file'.                          |
+| `substrate_node_restart`               | `always`                 | Restart option for systemd service.                                               |
+| `substrate_node_logrotate_conf_enable` | `true`                   | Enable logrotate config for log files. Needs `substrate_node_logging` == `"file"` |
+| `substrate_node_logrotate_conf`        | `redacted`               | Logrotate config, syntax available in defaults.                                   |
+| `substrate_node_validator`             | `false`                  | Whether node is acting as a validator                                             |
+| `substrate_node_bootnodes`             | ``                       | Supply a list of bootnodes if required                                            |
+| `substrate_node_friendly_name`         | `null`                   | Name which is used by the Telemetry service.                                      |
+| `substrate_node_data_dir`              | `/data`                  | Data directory in which chain state will be stored.                               |
+| `substrate_node_use_root`              | `true`                   | Whether to use root as a Linux user for permissions/running binary.               |
+| `substrate_node_pruning`               | ``                       | Pruning mode to use - archive or constained                                       |
+| `substrate_node_chain`                 | `opportunity`            | Chain to use by the node.                                                         |
+| `substrate_node_p2p_port`              | `30333`                  | libp2p port used by the node.                                                     |
+| `substrate_node_rpc_port`              | `9933`                   | HTTP RPC port used by the node.                                                   |
+| `substrate_node_rpc_external`          | `false`                  | Specify if we want to open up HTTP RPC outside of localhost/polkadot.js.          |
+| `substrate_node_ws_port`               | `9944`                   | WebSocket port used by the node.                                                  |
+| `substrate_node_ws_external`           | `false`                  | Specify if we want to open up WebSocket RPC outside of localhost/polkadot.js.     |
+| `substrate_node_rpc_cors`              | ``                       | Specify list of origins for external RPCs or 'all'.                               |
+| `substrate_node_rpc_methods`           | ``                       | Specify RPC mode - Auto, Safe, Unsafe.                                            |
+| `substrate_node_prometheus_port`       | `9615`                   | Specify which port we want to use for Prometheus endpoint.                        |
+| `substrate_node_prometheus_disable`    | `false`                  | Specify if we want to disable Prometheus endpoint.                                |
+| `substrate_node_prometheus_external`   | `false`                  | Specify if we want to open up Prometheus outside of localhost/polkadot.js.        |
 
 ## Installation
 

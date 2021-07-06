@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+{% for path in substrate_node_logrotate_conf.paths %}
+{{ path }}
+{% endfor %}
+{
+{% for option in substrate_node_logrotate_conf.options %}
+    {{ option }}
+{% endfor %}
+    postrotate
+    endscript
+}
