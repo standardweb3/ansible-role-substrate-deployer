@@ -19,6 +19,8 @@ substrate_node_logging: "syslog"
 substrate_node_use_root: true
 substrate_node_use_existing_user: true
 # example: substrate_node_pruning: "archive" | "constrained"
+# substrate_node_identity: "alice" | "bob"
+substrate_node_identity: ""
 substrate_node_pruning: ""
 substrate_node_user: "standard"
 substrate_node_group: "standard"
