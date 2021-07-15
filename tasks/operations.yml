@@ -1,0 +1,64 @@
+---
+- name: Substrate Ops | Purge Chain
+  block:
+    - name: Substrate Purge | Substrate Stop
+      ansible.builtin.systemd:
+        state: stopped
+        name: "{{ substrate_node_bin_name }}"
+
+    - name: Substrate Purge | Purge chain
+      command: |
+        {{ _substrate_node_bin_path }} purge-chain -y \
+          --chain {{ substrate_node_chain }} \
+          --base-path {{ substrate_node_data_dir }}
+  tags:
+    - never
+    - purge_chain
+
+# requires additional logic
+- name: Substrate Ops | Rollback
+  block:
+    - name: Substrate Rollback |
+      ansible.builtin.systemd:
+        state: stopped
+        name: "{{ substrate_node_bin_name }}"
+  tags:
+    - never
+    - rollback
+
+- name: Substrate Ops | Create Local Chainspec
+  command: |
+    {{ _substrate_node_bin_path }} build-spec \
+      --chain {{ substrate_node_chain }} \
+      --raw \
+      --disable-default-bootnode \
+      > {{ substrate_node_bin_dir }}{{ substrate_node_chain }}.json
+  tags:
+    - never
+    - chainspec
+
+- name: Substrate Ops | Get help on commands
+  block:
+    - name: Substrate Ops | Query help
+      command: |
+        {{ _substrate_node_bin_path }} --help
+      register: help
+    - name: Substrate Ops | Show help command
+      debug:
+        var: help.stdout
+  tags:
+    - never
+    - get_help
+
+- name: Substrate Ops | Run custom command
+  block:
+    - name: Substrate Ops | Query help
+      command: |
+        {{ _substrate_node_bin_path }} {{ substrate_node_custom_command }}
+      register: help
+    - name: Substrate Ops | Show help command
+      debug:
+        var: help.stdout
+  tags:
+    - never
+    - custom_command

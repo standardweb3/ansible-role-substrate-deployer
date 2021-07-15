@@ -22,7 +22,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 
 | Name                                     | Default Value            | Description                                                                       |
 | ---------------------------------------- | ------------------------ | --------------------------------------------------------------------------------- |
-| `substrate_node_setup`                   | `true`                   | Set if you want to download release and replace it with existing if it differs.   |
+| `substrate_node_install`                 | `true`                   | Set if you want to download release and replace it with existing if it differs.   |
 | `substrate_node_configure`               | `true`                   | Set if you want to do configuration part.                                         |
 | `substrate_node_version`                 | `0.0.9`                  | Version of the release to download and use. Also accepts latest as parameter.     |
 | `substrate_node_bin_dir`                 | `/usr/local/bin/`        | Folder where binary will be put.                                                  |

@@ -21,12 +21,23 @@
   ansible.builtin.systemd:
     name: "{{ substrate_node_bin_name }}"
     daemon_reload: true
+    state: started
+    enabled: true
+  register: node_start
+
+- name: Substrate Configure | Service restart if needed
+  ansible.builtin.systemd:
+    name: "{{ substrate_node_bin_name }}"
+    daemon_reload: true
     state: restarted
     enabled: true
+  when: node_startup.changed or release_install.changed
+  register: node_restart
 
-- name: Substrate Configure | Wait for service start
+- name: Substrate Configure | Wait for service start/restart
   pause:
-    seconds: 5
+    seconds: 10
+  when: node_start.changed or node_restart.changed
 
 - block:
     - name: Substrate Configure | Get service invocation ID
@@ -47,8 +58,6 @@
       failed_when:
         - '"Discovered new external address for our node" not in service_logs.stdout'
         - '"error" in service_logs.stdout'
-      tags:
-        - always
   when: substrate_node_logging == "syslog"
 
 - block:
@@ -65,15 +74,13 @@
     - name: Substrate Configure | Get logs
       debug:
         msg: "{{ item.stdout }}"
-      tags:
-        - always
       with_items: "{{ service_logs['results'] }}"
   when: substrate_node_logging == "file"
 
 - name: Substrate Configure | Verify ports are open
   wait_for:
     port: "{{ item }}"
-    timeout: 10
+    timeout: 60
   when:
     - item
   with_items:

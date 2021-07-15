@@ -1,0 +1,39 @@
+---
+- name: Substrate Prelim | RedHat Redendecies install
+  block:
+    - name: Substrate RedHat | Install selinux python packages [RHEL]
+      package:
+        name:
+          - "{{ ( (ansible_facts.distribution_major_version | int) < 8) | ternary('libselinux-python','python3-libselinux') }}"
+          - "{{ ( (ansible_facts.distribution_major_version | int) < 8) | ternary('policycoreutils-python','python3-policycoreutils') }}"
+        state: present
+      register: _install_selinux_packages
+      until: _install_selinux_packages is success
+      retries: 5
+      delay: 2
+
+    - name: Substrate RedHat | Configure SELinux for substrate node
+      ansible.posix.seboolean:
+        name: "{{  }}"
+        state: true
+        persistent: true
+  when:
+    - substrate_node_selinux_enabled
+    - substrate_node_group != 'root'
+    - ansible_os_family == 'RedHat'
+
+- name: Substrate Prelim | RedHat Redendecies install
+  block:
+    - name: Substrate SELinux | Install selinux python packages [Fedora]
+      package:
+        name:
+          - "{{ ( (ansible_facts.distribution_major_version | int) < 29) | ternary('libselinux-python','python3-libselinux') }}"
+          - "{{ ( (ansible_facts.distribution_major_version | int) < 29) | ternary('policycoreutils-python','python3-policycoreutils') }}"
+        state: present
+      register: _install_selinux_packages
+      until: _install_selinux_packages is success
+      retries: 5
+      delay: 2
+  when:
+    - ansible_os_family == 'Debian'
+    - substrate_node_selinux_enabled
