@@ -1,20 +1,8 @@
 ---
 - name: Substrate Logrotate | Install logrotate (Alpine Linux)
-  apk:
-    name: logrotate
-  when: ansible_facts['os_family'] == "Alpine"
-
-- name: Substrate Logrotate | Install logrotate (Debian/Ubuntu)
-  apt:
+  ansible.builtin.package:
     name: logrotate
     state: present
-  when: ansible_facts['os_family'] == "Debian"
-
-- name: Substrate Logrotate | Install logrotate (Amazon Linux/CentOS/Oracle Linux/RHEL)
-  yum:
-    name: logrotate
-    state: present
-  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Substrate Logrotate | Set up logrotate (SLES)
   block:

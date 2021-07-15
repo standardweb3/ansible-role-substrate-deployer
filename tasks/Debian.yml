@@ -1,6 +1,0 @@
----
-# - name: Substrate Debian | Ensure glibc is installed
-#   apt:
-#     name: glibc
-#     state: present
-#     update_cache: yes
