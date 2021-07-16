@@ -11,12 +11,6 @@
   import_tasks: configure.yml
   when: substrate_node_configure | bool
 
-- name: Substrate Main| Configure logrotate for node
-  import_tasks: logrotate.yml
-  when:
-    - substrate_node_logrotate_conf_enable | bool
-    - substrate_node_logging == "file"
-
 - name: Substrate Main | Postflight tasks
   import_tasks: postflight.yml
   when: substrate_node_postflight | bool
