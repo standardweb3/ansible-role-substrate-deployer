@@ -71,8 +71,8 @@
     - name: Substrate Configure | Output logs
       command: "tail -n 100 {{ item }}"
       with_items:
-        - /var/log/{{ substrate_node_bin_name }}/stderr.log
         - /var/log/{{ substrate_node_bin_name }}/stdout.log
+        - /var/log/{{ substrate_node_bin_name }}/stderr.log
       register: service_logs
       failed_when:
         - '"Discovered new external address for our node" not in service_logs.stdout'
