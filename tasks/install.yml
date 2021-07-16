@@ -24,6 +24,7 @@
             dest: "{{ _substrate_node_bin_path }}"
             owner: "{{ substrate_node_user }}"
             group: "{{ substrate_node_group }}"
+            force: true
             mode: a+x
             backup: true
           register: release_install
