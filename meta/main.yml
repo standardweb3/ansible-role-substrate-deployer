@@ -1,9 +1,7 @@
 ---
 collections:
-  - name: community.general
-    version: 3.3.2
-  - name: ansible.utils
-    version: 2.3.0
+  - community.general
+  - ansible.utils
 
 galaxy_info:
   role_name: substrate_deployer
