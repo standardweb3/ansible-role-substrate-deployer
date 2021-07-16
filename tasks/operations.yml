@@ -1,7 +1,7 @@
 ---
 - name: Substrate Ops | Rotate session keys
   block:
-    - name: Substrate Postflight | Rotate Session key
+    - name: Substrate Session | Rotate Session key
       uri:
         url: "http://localhost:{{ substrate_node_rpc_port }}"
         method: POST
@@ -11,7 +11,8 @@
         status_code: 200
       register: rotate_keys_result
 
-    - debug:
+    - name: Substrate Session | Show session key
+      debug:
         msg:
           - ==============================================================
           - Session key: "{{ rotate_keys_result.json.result | default('Undefined') }}"

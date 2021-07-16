@@ -72,6 +72,7 @@
             owner: "{{ substrate_node_user }}"
             group: "{{ substrate_node_group }}"
             mode: a+x
+            force: true
           register: release_install
       when:
         - '".tar.gz" not in substrate_node_source'
@@ -101,15 +102,9 @@
             group: "{{ substrate_node_group }}"
             mode: a+x
             backup: true
+            force: true
           register: release_install
       when:
         - '".tar.gz" in substrate_node_source'
   when:
     - '"http" not in substrate_node_source'
-
-- name: Substrate Install | Backup file location
-  debug:
-    msg: "{{ release_move.backup_file }}"
-  when:
-    - release_install.backup_file is defined
-    - release_install.backup_file != ""

@@ -16,10 +16,11 @@
     - system_chainType
     - net_peerCount
 
-- debug:
+- name: Substrate Postflight | Show output
+  debug:
     msg:
       - ==============================================================
-      - Backup file: "{{ release_move.backup_file | default('Undefined') }}"
+      - Backup file: "{{ release_install.backup_file | default('Undefined') }}"
       - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
       - Release version: "{{ substrate_node_latest_version | default(substrate_node_version) }}"
       - ==============================================================

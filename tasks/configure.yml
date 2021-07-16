@@ -19,7 +19,7 @@
 
 - name: Substrate Configure | Rotate logs before
   command: "logrotate -f /etc/logrotate.d/{{ substrate_node_bin_name }}"
-  when: (node_startup.changed or release_install.changed) and
+  when: (node_startup.changed or release_install.changed) | bool and
     (substrate_node_logrotate_conf_enable | bool and substrate_node_logging == "file")
 
 - name: Substrate Configure | Service start
@@ -27,7 +27,7 @@
     name: "{{ substrate_node_bin_name }}"
     daemon_reload: true
     # state: started
-    state: "{{ 'restarted' if (node_startup.changed or release_install.changed) else 'started' }}"
+    state: "{{ node_startup.changed or release_install.changed | ternary('restarted', 'started') }}"
     enabled: true
   register: node_start
 
