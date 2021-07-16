@@ -1,3 +1,10 @@
+---
+collections:
+  - name: community.general
+    version: 3.3.2
+  - name: ansible.utils
+    version: 2.3.0
+
 galaxy_info:
   role_name: substrate_deployer
   namespace: standardtech_bot

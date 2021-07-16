@@ -10,11 +10,10 @@
             repo: standard-substrate
             action: latest_release
           register: release
-          delegate_to: 127.0.0.1
 
         - name: Substrate Install | Set fact for release
           set_fact:
-            substrate_node_version: "{{ release.tag }}"
+            substrate_node_latest_version: "{{ release.tag }}"
       when:
         - substrate_node_version == 'latest'
 

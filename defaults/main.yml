@@ -6,10 +6,12 @@ substrate_node_postflight: true
 substrate_node_operations: true
 # example: substrate_node_version: 'latest'
 substrate_node_version: 0.1.0
+substrate_node_repository: "digitalnativeinc/standard-substrate"
 substrate_node_source:
-  "https://github.com/digitalnativeinc/standard-substrate/releases/download/\
-  {{ substrate_node_version }}/{{ substrate_node_bin_name }}-{{ ansible_system | lower }}-{{ ansible_architecture }}"
-substrate_node_releases: "https://api.github.com/repos/digitalnativeinc/standard-substrate/releases/latest"
+  "https://github.com/{{ substrate_node_repository }}/releases/download/\
+  {{ substrate_node_latest_version | default(substrate_node_version) }}/\
+  {{ substrate_node_bin_name }}-{{ ansible_system | lower }}-{{ ansible_architecture }}"
+substrate_node_releases: "https://api.github.com/repos/{{ substrate_node_repository }}/releases/latest"
 substrate_node_selinux_enabled: false
 substrate_node_bin_dir: "/usr/local/bin/"
 substrate_node_bin_name: "opportunity-standalone"
