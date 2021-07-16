@@ -31,19 +31,9 @@
     enabled: true
   register: node_start
 
-# - name: Substrate Configure | Service restart if needed
-#   ansible.builtin.systemd:
-#     name: "{{ substrate_node_bin_name }}"
-#     daemon_reload: true
-#     state: restarted
-#     enabled: true
-#   when: node_startup.changed or release_install.changed
-#   register: node_restart
-
 - name: Substrate Configure | Wait for service start/restart
   pause:
     seconds: 10
-  # when: node_start.changed or node_restart.changed
   when: node_start.changed
 
 - block:

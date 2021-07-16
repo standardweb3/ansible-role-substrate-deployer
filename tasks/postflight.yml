@@ -21,6 +21,7 @@
       - ==============================================================
       - Backup file: "{{ release_move.backup_file | default('Undefined') }}"
       - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
+      - Release version: "{{ substrate_node_latest_version | default(substrate_node_version) }}"
       - ==============================================================
       - Peer ID: "{{ node_rpc_result.results[0].json.result | default('Undefined') }}"
       - Node Role: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
