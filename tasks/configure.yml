@@ -15,35 +15,44 @@
     owner: "{{ substrate_node_user }}"
     group: "{{ substrate_node_group }}"
     mode: "0644"
-  register: node_startup
+  register: _node_startup
 
 - name: Substrate Configure | Rotate logs before
   command: "logrotate -f /etc/logrotate.d/{{ substrate_node_bin_name }}"
-  when: (node_startup.changed or release_install.changed) and
-    (substrate_node_logrotate_conf_enable | bool and substrate_node_logging == "file")
+  when:
+    - (_node_startup.changed or _binary_updated is defined)
+    - (substrate_node_logrotate_conf_enable | bool and substrate_node_logging == "file")
 
 - name: Substrate Configure | Service start
   ansible.builtin.systemd:
     name: "{{ substrate_node_bin_name }}"
     daemon_reload: true
-    # state: started
-    state: "{{ (node_startup.changed or release_install.changed) | ternary('restarted', 'started') }}"
+    state: started
     enabled: true
-  register: node_start
+  register: _node_start
+
+- name: Substrate Configure | Service restart if needed
+  ansible.builtin.systemd:
+    name: "{{ substrate_node_bin_name }}"
+    daemon_reload: true
+    state: restarted
+    enabled: true
+  when: _node_startup.changed or _binary_updated is defined
+  register: _node_restart
 
 - name: Substrate Configure | Wait for service start/restart
   pause:
     seconds: 10
-  when: node_start.changed
+  when: _node_start.changed or _node_restart.changed
 
 - block:
     - name: Substrate Configure | Get service invocation ID
       command: "systemctl show -p InvocationID --value {{ substrate_node_bin_name }}"
-      register: systemd_status
+      register: _systemd_status
 
     - name: Substrate Configure | Get logs
       command: |
-        journalctl _SYSTEMD_INVOCATION_ID="{{ systemd_status.stdout }}" + INVOCATION_ID="{{ systemd_status.stdout }}"
+        journalctl _SYSTEMD_INVOCATION_ID="{{ _systemd_status.stdout }}" + INVOCATION_ID="{{ _systemd_status.stdout }}"
       register: service_logs
       ignore_errors: true
       failed_when:
@@ -58,8 +67,8 @@
   when: substrate_node_logging == "syslog"
 
 - block:
-    - name: Substrate Configure | Output logs
-      command: "tail -n 100 {{ item }}"
+    - name: Substrate Configure | Get logs
+      command: "tail -n 25 {{ item }}"
       with_items:
         - /var/log/{{ substrate_node_bin_name }}/stdout.log
         - /var/log/{{ substrate_node_bin_name }}/stderr.log
@@ -72,6 +81,8 @@
       debug:
         msg: "{{ item.stdout }}"
       with_items: "{{ service_logs['results'] }}"
+      loop_control:
+        label: "{{ item.item }}"
   when: substrate_node_logging == "file"
 
 - name: Substrate Configure | Verify ports are open
