@@ -3,6 +3,11 @@
   block:
     - name: Substrate Install | Pull Latest tag
       block:
+        - name: Substrate Install | Install github3.py - required for community.general.github_release
+          pip:
+            name: github3
+            version: 2.0.0
+
         - name: Substrate Install | Get latest release of a public repository
           become: false
           community.general.github_release:
