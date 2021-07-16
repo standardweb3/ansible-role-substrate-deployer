@@ -1,18 +1,4 @@
 ---
-- name: Substrate Postflight | Rotate Session key
-  uri:
-    url: "http://localhost:{{ substrate_node_rpc_port }}"
-    method: POST
-    body: >
-      {"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}
-    body_format: json
-    status_code: 200
-  register: rotate_keys_result
-  failed_when: rotate_keys_result.json.result is not defined
-  ignore_errors: true
-  tags:
-    - rotate_keys
-
 - name: Substrate Postflight | Get node details
   uri:
     url: "http://localhost:{{ substrate_node_rpc_port }}"
@@ -24,30 +10,22 @@
   register: node_rpc_result
   with_items:
     - system_localPeerId
+    - system_nodeRoles
     - system_version
     - system_chain
     - system_chainType
     - net_peerCount
 
 - debug:
-    var: rotate_keys_result
-
-- name: Setting host facts using complex arguments
-  set_fact:
-    peer_id: "{{ node_rpc_result.results[0].json.result | default('Undefined') }}"
-    version: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
-    chain: "{{ node_rpc_result.results[2].json.result | default('Undefined') }}"
-    chain_type: "{{ node_rpc_result.results[3].json.result | default('Undefined') }}"
-    peer_count: "{{ node_rpc_result.results[4].json.result | default('Undefined') }}"
-    session_key: "{{ rotate_keys_result.json.result | default('Undefined') }}"
-
-- debug:
     msg:
       - ==============================================================
-      - Peer ID: "{{ hostvars[inventory_hostname].peer_id }}"
-      - Session Key: "{{ hostvars[inventory_hostname].session_key }}"
-      - Node Version: "{{ hostvars[inventory_hostname].version }}"
-      - Chain: "{{ hostvars[inventory_hostname].chain }}"
-      - Chain Type: "{{ hostvars[inventory_hostname].chain_type }}"
-      - Peer Count: "{{ hostvars[inventory_hostname].peer_count }}"
+      - Backup file: "{{ release_move.backup_file | default('Undefined') }}"
+      - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
+      - ==============================================================
+      - Peer ID: "{{ node_rpc_result.results[0].json.result | default('Undefined') }}"
+      - Node Role: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
+      - Node Version: "{{ node_rpc_result.results[2].json.result | default('Undefined') }}"
+      - Chain: "{{ node_rpc_result.results[3].json.result | default('Undefined') }}"
+      - Chain Type: "{{ node_rpc_result.results[4].json.result | default('Undefined') }}"
+      - Peer Count: "{{ node_rpc_result.results[5].json.result | default('Undefined') }}"
       - ==============================================================

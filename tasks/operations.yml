@@ -1,4 +1,25 @@
 ---
+- name: Substrate Ops | Rotate session keys
+  block:
+    - name: Substrate Postflight | Rotate Session key
+      uri:
+        url: "http://localhost:{{ substrate_node_rpc_port }}"
+        method: POST
+        body: >
+          {"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}
+        body_format: json
+        status_code: 200
+      register: rotate_keys_result
+
+    - debug:
+        msg:
+          - ==============================================================
+          - Session key: "{{ rotate_keys_result.json.result | default('Undefined') }}"
+          - ==============================================================
+  tags:
+    - never
+    - rotate_keys
+
 - name: Substrate Ops | Purge Chain
   block:
     - name: Substrate Purge | Substrate Stop
