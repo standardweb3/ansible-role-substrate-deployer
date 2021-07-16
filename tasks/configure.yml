@@ -27,7 +27,7 @@
     name: "{{ substrate_node_bin_name }}"
     daemon_reload: true
     # state: started
-    state: "{{ restarted if (node_startup.changed or release_install.changed) else started }}"
+    state: "{{ 'restarted' if (node_startup.changed or release_install.changed) else 'started' }}"
     enabled: true
   register: node_start
 
