@@ -47,8 +47,7 @@
             src: "{{ substrate_node_source }}"
             dest: /tmp
             remote_src: "{{ ( '://' in substrate_node_source ) | ternary(true, false) }}"
-            owner: "{{ substrate_node_user }}"
-            group: "{{ substrate_node_group }}"
+            # remote_src: "{{ ( '://' in substrate_node_source ) | ternary(true, false) }}"
             list_files: true
           register: _unarchive_output
 
@@ -59,7 +58,8 @@
 
     - name: Substrate Install | Move file
       ansible.builtin.copy:
-        src: "{{ ( _unarchive_output.changed | bool ) | ternary('/tmp/' + _unarchive_output.files[0], substrate_node_source) }}"
+        # src: "{{ ( _unarchive_output.changed | bool ) | ternary('/tmp/' + _unarchive_output.files[0], substrate_node_source) }}"
+        src: "{{ ( '://' in substrate_node_source ) | ternary(_unarchive_output.files[0], substrate_node_source) }}"
         dest: "{{ _substrate_node_bin_path }}"
         remote_src: true
         owner: "{{ substrate_node_user }}"
