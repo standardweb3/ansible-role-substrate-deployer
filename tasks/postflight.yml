@@ -20,7 +20,7 @@
   debug:
     msg:
       - ==============================================================
-      - Backup file: "{{ release_install.backup_file | default('Undefined') }}"
+      - Backup file: "{{ _backup_path | default('Undefined') }}"
       - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
       - Release version: "{{ substrate_node_latest_version | default(substrate_node_version) }}"
       - ==============================================================
