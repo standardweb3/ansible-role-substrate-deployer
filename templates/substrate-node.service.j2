@@ -47,27 +47,24 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_pruning | length %}
 --pruning {{ substrate_node_pruning }} \
 {% endif %}
-{% if substrate_node_role is "validator" %}
+{% if substrate_node_role | lower == "validator" %}
 --validator \
 {% endif %}
-{% if substrate_node_role is "collator" %}
+{% if substrate_node_role  | lower == "collator" %}
 --force-authoring \
 --parachain-id {{ substrate_node_parachain_id }} \
 {% endif %}
 --name "{{ substrate_node_friendly_name }}"
-{% if substrate_node_role is "collator" %}
+{% if substrate_node_role  | lower == "collator" %}
 -- \
 --execution wasm \
---chain {{ substrate_node_collator_chain}}
+--chain {{ substrate_node_collator_chain }}
 {% endif %}
 
-
-nohup standard-collator -d /data --chain ./opportunity_rococo.json --port 30333 --force-authoring --ws-port 9944 --ws-external --rpc-cors all --alice --parachain-id 2051 -- --execution wasm --chain rococo
-
-{% if substrate_node_logging == 'file' %}
+{% if substrate_node_logging | lower == 'file' %}
 StandardOutput=append:/var/log/{{ substrate_node_bin_name }}/stdout.log
 StandardError=append:/var/log/{{ substrate_node_bin_name }}/stderr.log
-{% elif substrate_node_custom_restart == 'syslog' %}
+{% elif substrate_node_logging | lower == 'syslog' %}
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=​{{ substrate_node_bin_name }}

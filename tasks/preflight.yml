@@ -65,4 +65,4 @@
       notify: Run Logrotate
   when:
     - substrate_node_logrotate_conf_enable | bool
-    - substrate_node_logging == "file"
+    - substrate_node_logging | lower == "file"
