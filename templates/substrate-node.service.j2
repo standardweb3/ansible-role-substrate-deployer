@@ -23,7 +23,7 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_rpc_port is defined %}
 --rpc-port {{ substrate_node_rpc_port }} \
 {% endif %}
-{% if substrate_node_rpc_external is true  and substrate_node_validator is false %}
+{% if substrate_node_rpc_external is true %}
 --rpc-external \
 {% endif %}
 {% if substrate_node_rpc_cors | length %}
@@ -47,10 +47,22 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_pruning | length %}
 --pruning {{ substrate_node_pruning }} \
 {% endif %}
-{% if substrate_node_validator is true %}
+{% if substrate_node_role is "validator" %}
 --validator \
 {% endif %}
+{% if substrate_node_role is "collator" %}
+--force-authoring \
+--parachain-id {{ substrate_node_parachain_id }} \
+{% endif %}
 --name "{{ substrate_node_friendly_name }}"
+{% if substrate_node_role is "collator" %}
+-- \
+--execution wasm \
+--chain {{ substrate_node_collator_chain}}
+{% endif %}
+
+
+nohup standard-collator -d /data --chain ./opportunity_rococo.json --port 30333 --force-authoring --ws-port 9944 --ws-external --rpc-cors all --alice --parachain-id 2051 -- --execution wasm --chain rococo
 
 {% if substrate_node_logging == 'file' %}
 StandardOutput=append:/var/log/{{ substrate_node_bin_name }}/stdout.log

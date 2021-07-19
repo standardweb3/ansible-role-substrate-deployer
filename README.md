@@ -31,7 +31,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `substrate_node_restart`                 | `always`                 | Restart option for systemd service.                                               |
 | `substrate_node_logrotate_conf_enable`   | `true`                   | Enable logrotate config for log files. Needs `substrate_node_logging` == `"file"` |
 | `substrate_node_logrotate_conf`          | `redacted`               | Logrotate config, syntax available in defaults.                                   |
-| `substrate_node_validator`               | `false`                  | Whether node is acting as a validator                                             |
+| `substrate_node_role`                    | `Validator`              | Choose role for node: "Validator", "Collator, "RPC"                               |
 | `substrate_node_bootnodes`               | ``                       | Supply a list of bootnodes if required                                            |
 | `substrate_node_friendly_name`           | `null`                   | Name which is used by the Telemetry service.                                      |
 | `substrate_node_data_dir`                | `/data`                  | Data directory in which chain state will be stored.                               |

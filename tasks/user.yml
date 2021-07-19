@@ -1,11 +1,3 @@
-- name: Substrate User | Set root user if substrate_node_use_existing_user is set to false
-  set_fact:
-    substrate_node_user: root
-    substrate_node_group: root
-  when:
-    - not substrate_node_use_existing_user
-    - substrate_node_use_root
-
 - block:
     - name: Substrate User | Add system group
       ansible.builtin.group:
@@ -16,7 +8,9 @@
     - name: Substrate User | Add user
       ansible.builtin.user:
         name: "{{ substrate_node_user }}"
-        group: "{{ substrate_node_group }}"
+        groups:
+          - "{{ substrate_node_group }}"
+          - "adm"
 
     - name: Substrate User | Adjust permissions for data dir
       ansible.builtin.file:
@@ -27,18 +21,5 @@
         mode: 0750
         recurse: true
   when:
-    - not substrate_node_use_existing_user
-    - not substrate_node_use_root
-
-- block:
-    - name: Substrate User | Remove user
-      ansible.builtin.user:
-        name: "{{ substrate_node_user }}"
-        state: absent
-        remove: true
-
-    - name: Substrate Group | Remove group
-      ansible.builtin.group:
-        name: "{{ substrate_node_group }}"
-        state: absent
-  when: not substrate_node_use_existing_user
+    - substrate_node_user is not "root"
+    - substrate_node_group is not "root"
