@@ -43,7 +43,7 @@
   block:
     - block:
         - debug:
-            var: "{{ substrate_node_source }}"
+            var: substrate_node_source
 
         - debug:
             var: "{{ '://' in substrate_node_source }}"
