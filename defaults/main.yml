@@ -5,7 +5,7 @@ substrate_node_configure: true
 substrate_node_postflight: true
 substrate_node_operations: true
 # example: substrate_node_version: 'latest'
-substrate_node_version: "latest"
+substrate_node_version: "0.2.1"
 substrate_node_repository: "digitalnativeinc/standard-substrate"
 substrate_node_source:
   "https://github.com/{{ substrate_node_repository }}/releases/download/\
