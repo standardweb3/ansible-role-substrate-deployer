@@ -84,3 +84,53 @@
   tags:
     - never
     - custom_command
+
+- name: Substrate Ops | Generate collator genesis state/wasm
+  block:
+    - name: Substrate Ops | Export Genesis state
+      command: |
+        {{ _substrate_node_bin_path }} export-genesis-state \
+        --chain {{ substrate_node_chain }} \
+        --parachain-id {{ substrate_node_parachain_id }} \
+        > ./para-{{ substrate_node_parachain_id }}-genesis
+    - name: Substrate Ops | export Genesis WASM
+      command: |
+        {{ _substrate_node_bin_path }} export-genesis-wasm \
+        --chain {{ substrate_node_chain }} \
+        > ./para-{{ substrate_node_parachain_id }}-wasm
+    - name: Substrate Ops | Copy
+      ansible.builtin.fetch:
+        src: "{{ substrate_node_bin_dir }}/{{ item }}"
+        dest: ./
+      loop:
+        - "para-{{ substrate_node_parachain_id }}-wasm"
+        - "para-{{ substrate_node_parachain_id }}-wasm"
+  tags:
+    - never
+    - export_genesis
+
+- name: Substrate Ops | Purge all
+  block:
+    - name: Substrate Ops | Remove bin/data dir
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ _substrate_node_bin_path }}"
+        - "{{ substrate_node_data_dir }}"
+        - "/etc/logrotate.d/{{ substrate_node_bin_name }}"
+        - "/var/log/{{ substrate_node_bin_name }}"
+
+    - name: Substrate Ops | Remove user
+      ansible.builtin.user:
+        name: "{{ substrate_node_user }}"
+        state: absent
+        remove: true
+
+    - name: Substrate Ops | Remove group
+      ansible.builtin.group:
+        name: "{{ substrate_node_group }}"
+        state: absent
+  tags:
+    - never
+    - purge_all

@@ -16,8 +16,6 @@ This role deploys and sets up Substrate Node on a target Virtual Machine.
 
 ## Role Variables
 
-Enable logrotate config for log files. Requires `substrate_node_logging` to be set to `file` to work.
-
 All variables which can be overridden are stored in [defaults/main.yml](defaults/main.yml) and are listed in the table below.
 
 | Name                                     | Default Value            | Description                                                                       |
@@ -31,7 +29,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `substrate_node_restart`                 | `always`                 | Restart option for systemd service.                                               |
 | `substrate_node_logrotate_conf_enable`   | `true`                   | Enable logrotate config for log files. Needs `substrate_node_logging` == `"file"` |
 | `substrate_node_logrotate_conf`          | `redacted`               | Logrotate config, syntax available in defaults.                                   |
-| `substrate_node_validator`               | `false`                  | Whether node is acting as a validator                                             |
+| `substrate_node_role`                    | `Validator`              | Choose role for node: "Validator", "Collator, "RPC"                               |
 | `substrate_node_bootnodes`               | ``                       | Supply a list of bootnodes if required                                            |
 | `substrate_node_friendly_name`           | `null`                   | Name which is used by the Telemetry service.                                      |
 | `substrate_node_data_dir`                | `/data`                  | Data directory in which chain state will be stored.                               |
@@ -54,7 +52,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 
 ### Ansible Galaxy
 
-Use `ansible-galaxy install <>` to install the latest stable release of the role on your system.
+Use `ansible-galaxy install standardtech_bot.substrate_deployer` to install the latest stable release of the role on your system.
 
 ### Requirements file
 
@@ -64,7 +62,7 @@ Add it to the requirements file:
 roles:
   - name: substrate_deployer
     src: https://github.com/digitalnativeinc/ansible-role-substrate-deployer.git
-    version: 0.1.4
+    version: 0.6.0
 ```
 
 Install requirements:
@@ -82,10 +80,13 @@ Use it in a playbook as follows:
   roles:
     - substrate_deployer
   vars:
-    substrate_node_setup: true
     substrate_node_version: latest
-    substrate_node_validator: true
+    substrate_node_role: "Validator"
     substrate_node_friendly_name: "Standard Validator"
+    substrate_node_logging: "file"
+    substrate_node_data_dir: "/data"
+    substrate_node_rpc_port: 9933
+    substrate_node_bin_name: "opportunity-standalone"
 ```
 
 ## License

@@ -16,6 +16,10 @@
     - system_chainType
     - net_peerCount
 
+- name: Substrate Postflight | Set fact for subsequent plays
+  set_fact:
+    peer_id: "{{ node_rpc_result.results[0].json.result }}"
+
 - name: Substrate Postflight | Show output
   debug:
     msg:

@@ -38,6 +38,31 @@
     - ansible_os_family == 'Debian'
     - substrate_node_selinux_enabled
 
+- name: Substrate User | Add system group
+  ansible.builtin.group:
+    name: "{{ substrate_node_group }}"
+    system: true
+    state: present
+  when: substrate_node_group != "root"
+
+- name: Substrate User | Add user
+  ansible.builtin.user:
+    name: "{{ substrate_node_user }}"
+    state: present
+    groups:
+      - "{{ substrate_node_group }}"
+      - "adm"
+  when: substrate_node_user != "root"
+
+- name: Substrate User | Adjust permissions for data dir
+  ansible.builtin.file:
+    path: "{{ substrate_node_data_dir }}"
+    state: directory
+    owner: "{{ substrate_node_user }}"
+    group: "{{ substrate_node_group }}"
+    mode: "0744"
+    recurse: true
+
 - name: Substrate Logrotate | Setup logrotate
   block:
     - name: Substrate Logrotate | Install logrotate (Alpine Linux)
@@ -61,8 +86,9 @@
       template:
         src: logrotate.j2
         dest: "/etc/logrotate.d/{{ substrate_node_bin_name }}"
-        mode: 0644
-      notify: Run Logrotate
+        owner: root
+        group: root
+        mode: "0644"
   when:
     - substrate_node_logrotate_conf_enable | bool
-    - substrate_node_logging == "file"
+    - substrate_node_logging | lower == "file"
