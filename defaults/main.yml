@@ -5,7 +5,7 @@ substrate_node_configure: true
 substrate_node_postflight: true
 substrate_node_operations: true
 # example: substrate_node_version: 'latest'
-substrate_node_version: "0.2.1"
+substrate_node_version: "latest"
 substrate_node_repository: "digitalnativeinc/standard-substrate"
 substrate_node_source:
   "https://github.com/{{ substrate_node_repository }}/releases/download/\
@@ -24,14 +24,13 @@ substrate_node_collator_chain: ""
 substrate_node_parachain_id: ""
 # substrate_node_logging: "syslog" | "file"
 substrate_node_logging: "syslog"
-# substrate_node_identity: "alice" | "bob" | "charlie" | "dave" | "eve" | "ferdie"
+# substrate_node_identity: "alice" | "bob" | "charlie" | "dave" | "eve" | "ferdie" | "one" | "two" | "dev"
 substrate_node_identity: ""
 # example: substrate_node_pruning: "archive" | "constrained"
 substrate_node_pruning: ""
 substrate_node_user: "standard"
-substrate_node_group: "standard"
-# example: substrate_node_chain: "opportunity"
-substrate_node_chain: ""
+substrate_node_group: "{{ substrate_node_user }}"
+substrate_node_chain: "opportunity"
 # substrate_node_restart: "always" | "on-failure"
 substrate_node_restart: "always"
 substrate_node_p2p_port: 30333
