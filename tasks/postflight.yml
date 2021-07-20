@@ -17,6 +17,7 @@
     - net_peerCount
 
 - name: Substrate Postflight | Set fact for subsequent plays
+  cacheable: yes
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
 
