@@ -54,7 +54,9 @@ ExecStart={{ substrate_node_bin_name }} \
 --validator \
 {% endif %}
 {% if substrate_node_role  | lower == "collator" %}
+{% if substrate_node_collator_flag is true %}
 --collator \
+{% endif %}
 --force-authoring \
 --parachain-id {{ substrate_node_parachain_id }} \
 {% endif %}
