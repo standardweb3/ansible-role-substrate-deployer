@@ -17,13 +17,13 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_key | length %}
 --node-key-file {{ _substrate_node_key_file }} \
 {% endif %}
-{% if substrate_node_ws_port | length %}
+{% if substrate_node_ws_port is defined %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
 {% if substrate_node_ws_external is true %}
 --ws-external \
 {% endif %}
-{% if substrate_node_rpc_port | length %}
+{% if substrate_node_rpc_port is defined %}
 --rpc-port {{ substrate_node_rpc_port }} \
 {% endif %}
 {% if substrate_node_rpc_external is true %}
@@ -44,7 +44,7 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_prometheus_disable is true %}
 --no-prometheus \
 {% endif %}
-{% if substrate_node_prometheus_disable is not true and substrate_node_prometheus_port | length %}
+{% if substrate_node_prometheus_disable is not true and substrate_node_prometheus_port is defined %}
 --prometheus-port {{ substrate_node_prometheus_port }} \
 {% endif %}
 {% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}
