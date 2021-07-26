@@ -1,7 +1,7 @@
 ---
 - name: Substrate Postflight | Get node details
   uri:
-    url: "http://localhost:{{ substrate_node_rpc_port }}"
+    url: "http://localhost:{{ substrate_node_configuration.rpc_port }}"
     method: POST
     body: >
       {"id":1, "jsonrpc":"2.0", "method": "{{ item }}", "params":[]}
@@ -19,7 +19,9 @@
 - name: Substrate Postflight | Set fact for subsequent plays
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
-    bootnode: "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
+    bootnode: >-
+      "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/\
+      {{ substrate_node_configuration.p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
 
 - name: Substrate Postflight | Show output

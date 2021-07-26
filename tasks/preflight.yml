@@ -1,4 +1,10 @@
 ---
+- name: Substrate RedHat | Assert usage of systemd as an init system
+  assert:
+    that: ansible_service_mgr == 'systemd'
+    fail_msg: "This role only works with systemd"
+    success_msg: "Systemd used"
+
 - name: Substrate Prelim | RedHat Redendecies install
   block:
     - name: Substrate RedHat | Install selinux python packages [RHEL]

@@ -15,41 +15,49 @@ substrate_node_releases: "https://api.github.com/repos/{{ substrate_node_reposit
 substrate_node_selinux_enabled: false
 substrate_node_bin_dir: "/usr/local/bin/"
 substrate_node_bin_name: "opportunity-standalone"
-# substrate_node_role: "validator" | "collator" | "rpc"
-substrate_node_role: "validator"
-substrate_node_bootnodes: ""
-substrate_node_friendly_name: "Standard Validator"
-substrate_node_data_dir: "/data"
-substrate_node_collator_chain: ""
-substrate_node_collator_bootnodes: ""
-substrate_node_collator_p2p_port: ""
-substrate_node_collator_ws_port: ""
-substrate_node_collator_flag: false
-substrate_node_parachain_id: ""
-substrate_node_log_level: ""
+substrate_node_configuration:
+  substrate_node_friendly_name: "Standard Validator"
+  # example: role: "validator" | "collator" | "rpc"
+  role: "Validator"
+  bootnodes: null
+  chain: "opportunity"
+  data_dir: "/data"
+  node_key: null
+  # example: pruning: "archive" | "constrained"
+  pruning: null
+  # example: identity: "alice" | "bob" | "charlie" | "dave" | "eve" | "ferdie" | "one" | "two" | "dev"
+  identity: null
+  prometheus_port: 9615
+  prometheus_disable: false
+  prometheus_external: false
+  p2p_port: 30333
+  rpc_port: 9933
+  rpc_external: false
+  ws_port: 9944
+  ws_external: false
+  # example: rpc_cors: "localhost,https://polkadot.js.org" | "all"
+  rpc_cors: null
+  # example: rpc_methods: "Safe" | "Unsafe" | "Auto"
+  rpc_methods: "Auto"
+  # modules: "afg, babe, telemetry, txpool, usage, db, gossip, peerset, state-db, state-trace, sub-libp2p, trie, wasm-executor, wasm-heap"
+  # levels: "error, warn, info, debug, trace"
+  # example: log_level: "info, telemetry=debug, trie=warn"
+  log_level: null
+
+substrate_node_collator_configuration:
+  chain: null
+  bootnodes: null
+  p2p_port: null
+  ws_port: null
+  collator_flag: false
+  parachain_id: null
+
 # substrate_node_logging: "syslog" | "file"
 substrate_node_logging: "syslog"
-# substrate_node_identity: "alice" | "bob" | "charlie" | "dave" | "eve" | "ferdie" | "one" | "two" | "dev"
-substrate_node_identity: ""
-# example: substrate_node_pruning: "archive" | "constrained"
-substrate_node_pruning: ""
 substrate_node_user: "standard"
 substrate_node_group: "{{ substrate_node_user }}"
-substrate_node_chain: "opportunity"
 # substrate_node_restart: "always" | "on-failure"
 substrate_node_restart: "always"
-substrate_node_p2p_port: 30333
-substrate_node_rpc_port: 9933
-substrate_node_rpc_external: false
-# example: substrate_node_rpc_methods: "Safe" | "Unsafe" | "Auto"
-substrate_node_rpc_methods: "Auto"
-# example: substrate_node_rpc_cors: "localhost,https://polkadot.js.org" | "all"
-substrate_node_rpc_cors: ""
-substrate_node_ws_port: 9944
-substrate_node_ws_external: false
-substrate_node_prometheus_port: 9615
-substrate_node_prometheus_disable: false
-substrate_node_prometheus_external: false
 substrate_node_logrotate_conf_enable: true
 substrate_node_logrotate_conf:
   paths:
@@ -66,3 +74,4 @@ substrate_node_logrotate_conf:
 
 # INTERNAL VARIABLES
 _substrate_node_bin_path: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
+_node_key_file: /data/node-key
