@@ -62,7 +62,7 @@
 
 - name: Substrate User | Adjust permissions for data dir
   ansible.builtin.file:
-    path: "{{ substrate_node_data_dir }}"
+    path: "{{ substrate_node_configuration.data_dir }}"
     state: directory
     owner: "{{ substrate_node_user }}"
     group: "{{ substrate_node_group }}"

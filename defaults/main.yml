@@ -17,7 +17,7 @@ substrate_node_bin_dir: "/usr/local/bin/"
 substrate_node_bin_name: "opportunity-standalone"
 substrate_node_configuration:
   substrate_node_friendly_name: "Standard Validator"
-  # example: role: "validator" | "collator" | "rpc"
+  # example: role: "Validator" | "Collator" | "RPC"
   role: "Validator"
   bootnodes: null
   chain: "opportunity"
