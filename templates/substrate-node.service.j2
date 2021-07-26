@@ -1,83 +1,83 @@
 {{ ansible_managed | comment }}
 
 [Unit]
-Description={{ substrate_node_configuration.friendly_name }} Node
+Description={{ substrate_node_friendly_name }} Node
 After=network-online.target
 
 [Service]
 ExecStart={{ substrate_node_bin_name }} \
 --base-path {{ substrate_node_data_dir }} \
---port {{ substrate_node_configuration.p2p_port }} \
-{% if substrate_node_configuration.chain | length %}
---chain {{ substrate_node_configuration.chain }} \
+--port {{ substrate_node_p2p_port }} \
+{% if substrate_node_chain | length %}
+--chain {{ substrate_node_chain }} \
 {% endif %}
-{% if substrate_node_configuration.bootnodes | length %}
---bootnodes {{ substrate_node_configuration.bootnodes }} \
+{% if substrate_node_bootnodes | length %}
+--bootnodes {{ substrate_node_bootnodes }} \
 {% endif %}
-{% if substrate_node_configuration.node_key | length %}
---node-key-file {{ substrate_node_configuration._node_key_file }} \
+{% if substrate_node_node_key | length %}
+--node-key-file {{ substrate_node__node_key_file }} \
 {% endif %}
-{% if substrate_node_configuration.ws_port | length %}
---ws-port {{ substrate_node_configuration.ws_port }} \
+{% if substrate_node_ws_port | length %}
+--ws-port {{ substrate_node_ws_port }} \
 {% endif %}
-{% if substrate_node_configuration.ws_external is true %}
+{% if substrate_node_ws_external is true %}
 --ws-external \
 {% endif %}
-{% if substrate_node_configuration.rpc_port | length %}
---rpc-port {{ substrate_node_configuration.rpc_port }} \
+{% if substrate_node_rpc_port | length %}
+--rpc-port {{ substrate_node_rpc_port }} \
 {% endif %}
-{% if substrate_node_configuration.rpc_external is true %}
+{% if substrate_node_rpc_external is true %}
 --rpc-external \
 {% endif %}
-{% if substrate_node_configuration.rpc_cors | length %}
---rpc-cors {{ substrate_node_configuration.rpc_cors }} \
+{% if substrate_node_rpc_cors | length %}
+--rpc-cors {{ substrate_node_rpc_cors }} \
 {% endif %}
-{% if substrate_node_configuration.rpc_methods | length %}
---rpc-methods {{ substrate_node_configuration.rpc_methods }} \
+{% if substrate_node_rpc_methods | length %}
+--rpc-methods {{ substrate_node_rpc_methods }} \
 {% endif %}
-{% if substrate_node_configuration.identity | length %}
---{{ substrate_node_configuration.identity }} \
+{% if substrate_node_identity | length %}
+--{{ substrate_node_identity }} \
 {% endif %}
-{% if substrate_node_configuration.log_level | length %}
---log {{ substrate_node_configuration.log_level }} \
+{% if substrate_node_log_level | length %}
+--log {{ substrate_node_log_level }} \
 {% endif %}
-{% if substrate_node_configuration.prometheus_disable is true %}
+{% if substrate_node_prometheus_disable is true %}
 --no-prometheus \
 {% endif %}
-{% if substrate_node_configuration.prometheus_disable is not true and substrate_node_configuration.prometheus_port | length %}
---prometheus-port {{ substrate_node_configuration.prometheus_port }} \
+{% if substrate_node_prometheus_disable is not true and substrate_node_prometheus_port | length %}
+--prometheus-port {{ substrate_node_prometheus_port }} \
 {% endif %}
-{% if substrate_node_configuration.prometheus_external is true and substrate_node_configuration.prometheus_disable is not true %}
+{% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}
 --prometheus-external \
 {% endif %}
-{% if substrate_node_configuration.pruning | length %}
---pruning {{ substrate_node_configuration.pruning }} \
+{% if substrate_node_pruning | length %}
+--pruning {{ substrate_node_pruning }} \
 {% endif %}
-{% if substrate_node_configuration.role | lower == "validator" %}
+{% if substrate_node_role | lower == "validator" %}
 --validator \
 {% endif %}
-{% if substrate_node_configuration.role  | lower == "collator" %}
-{% if substrate_node_configuration.collator_flag is true %}
+{% if substrate_node_role  | lower == "collator" %}
+{% if substrate_node_collator_flag is true %}
 --collator \
 {% endif %}
 --force-authoring \
---parachain-id {{ substrate_node_configuration.parachain_id }} \
+--parachain-id {{ substrate_node_parachain_id }} \
 {% endif %}
---name "{{ substrate_node_configuration.friendly_name }}" \
-{% if substrate_node_configuration.role  | lower == "collator" %}
+--name "{{ substrate_node_friendly_name }}" \
+{% if substrate_node_role  | lower == "collator" %}
 -- \
 --execution wasm \
-{% if ssubstrate_node_collator_configuration.chain | length %}
---chain {{ substrate_node_collator_configuration.chain }} \
+{% if ssubstrate_node_collator_chain | length %}
+--chain {{ substrate_node_collator_chain }} \
 {% endif %}
-{% if substrate_node_collator_configuration.bootnodes | length %}
---bootnodes {{ substrate_node_collator_configuration.bootnodes }} \
+{% if substrate_node_collator_bootnodes | length %}
+--bootnodes {{ substrate_node_collator_bootnodes }} \
 {% endif %}
-{% if substrate_node_collator_configuration.p2p_port | length %}
---port {{ substrate_node_collator_configuration.p2p_port }} \
+{% if substrate_node_collator_p2p_port | length %}
+--port {{ substrate_node_collator_p2p_port }} \
 {% endif %}
-{% if substrate_node_collator_configuration.ws_port | length %}
---ws-port {{ substrate_node_collator_configuration.ws_port }}
+{% if substrate_node_collator_ws_port | length %}
+--ws-port {{ substrate_node_collator_ws_port }}
 {% endif %}
 {% endif %}
 
