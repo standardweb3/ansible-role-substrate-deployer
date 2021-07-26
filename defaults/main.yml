@@ -43,18 +43,18 @@ substrate_node_logrotate_conf:
 #
 # substrate_node_role: "validator" | "collator" | "rpc"
 substrate_node_role: "validator"
-substrate_node_bootnodes: null
+substrate_node_bootnodes: ""
 substrate_node_friendly_name: "Standard Validator"
 substrate_node_data_dir: "/data"
 # modules: "afg, babe, telemetry, txpool, usage, db, gossip, peerset, state-db, state-trace, sub-libp2p, trie, wasm-executor, wasm-heap"
 # levels: "error, warn, info, debug, trace"
 # example: substrate_node_log_level: "warn, txpool=debug, peerset=trace"
-substrate_node_log_level: null
+substrate_node_log_level: ""
 # substrate_node_identity: "alice" | "bob" | "charlie" | "dave" | "eve" | "ferdie" | "one" | "two" | "dev"
-substrate_node_identity: null
+substrate_node_identity: ""
 # example: substrate_node_pruning: "archive" | "constrained"
-substrate_node_key: null
-substrate_node_pruning: null
+substrate_node_key: ""
+substrate_node_pruning: ""
 substrate_node_chain: "opportunity"
 substrate_node_p2p_port: 30333
 substrate_node_rpc_port: 9933
@@ -64,7 +64,7 @@ substrate_node_ws_external: false
 # example: substrate_node_rpc_methods: "Safe" | "Unsafe" | "Auto"
 substrate_node_rpc_methods: "Auto"
 # example: substrate_node_rpc_cors: "localhost,https://polkadot.js.org" | "all"
-substrate_node_rpc_cors: null
+substrate_node_rpc_cors: ""
 substrate_node_prometheus_port: 9615
 substrate_node_prometheus_disable: false
 substrate_node_prometheus_external: false
