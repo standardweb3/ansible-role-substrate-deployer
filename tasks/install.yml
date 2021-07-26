@@ -79,14 +79,13 @@
 - name: Substrate Install | Node key setup
   block:
     - name: Substrate Install | Create node key file
-      lineinfile:
-        path: /data/node-key
-        state: present
-        create: true
-        line: "{{ substrate_node_key }}"
+      copy:
+        content: "{{ substrate_node_key }}"
+        dest: /data/node-key
+        force: true
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         mode: 0600
-      no_log: true
+      no_log: false
   when:
     - substrate_node_key | length
