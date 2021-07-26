@@ -14,8 +14,8 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_bootnodes | length %}
 --bootnodes {{ substrate_node_bootnodes }} \
 {% endif %}
-{% if substrate_node_node_key | length %}
---node-key-file {{ substrate_node__node_key_file }} \
+{% if substrate_node_key | length %}
+--node-key-file {{ _substrate_node_key_file }} \
 {% endif %}
 {% if substrate_node_ws_port | length %}
 --ws-port {{ substrate_node_ws_port }} \
