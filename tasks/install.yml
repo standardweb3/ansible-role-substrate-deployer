@@ -83,7 +83,7 @@
         path: /data/node-key
         state: present
         create: true
-        line: substrate_node_key
+        line: "{{ substrate_node_key }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         mode: 0600
