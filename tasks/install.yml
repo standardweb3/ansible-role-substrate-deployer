@@ -74,8 +74,6 @@
       debug:
         var: _unarchive_output.files
 
-    - name:
-
     - name: Substrate Install | Move file
       ansible.builtin.copy:
         src: "{{ _unarchive_output.dest }}/{{ _unarchive_output.files[0] }}"
