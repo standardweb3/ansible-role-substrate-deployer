@@ -55,6 +55,8 @@ substrate_node_identity: ""
 # example: substrate_node_pruning: "archive" | "constrained"
 substrate_node_key: ""
 substrate_node_pruning: ""
+# example: substrate_node_execution: "Native | "Wasm" | "Both" | "NativeElseWasm"
+substrate_node_execution: ""
 substrate_node_chain: "opportunity"
 substrate_node_p2p_port: 30333
 substrate_node_rpc_port: 9933
@@ -81,4 +83,4 @@ substrate_node_collator_flag: false
 
 # INTERNAL VARIABLES
 _substrate_node_bin_path: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
-_substrate_node_key_path: /data/node-key
+_substrate_node_key_path: "/data/node-key-{{ substrate_node_bin_name }}"

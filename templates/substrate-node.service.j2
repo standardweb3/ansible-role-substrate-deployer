@@ -38,6 +38,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_identity | length %}
 --{{ substrate_node_identity }} \
 {% endif %}
+{% if substrate_node_execution | length %}
+--{{ substrate_node_execution }} \
+{% endif %}
 {% if substrate_node_log_level | length %}
 --log {{ substrate_node_log_level }} \
 {% endif %}

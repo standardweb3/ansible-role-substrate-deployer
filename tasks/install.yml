@@ -76,16 +76,21 @@
   when:
     - '"://" not in substrate_node_source'
 
-- name: Substrate Install | Node key setup
-  block:
-    - name: Substrate Install | Create node key file
-      copy:
-        content: "{{ substrate_node_key }}"
-        dest: /data/node-key
-        force: true
-        owner: "{{ substrate_node_user }}"
-        group: "{{ substrate_node_group }}"
-        mode: 0600
-      no_log: false
-  when:
-    - substrate_node_key | length
+- name: Substrate Install | Create node key file
+  copy:
+    content: "{{ substrate_node_key }}"
+    dest: "{{ _substrate_node_key_path }}"
+    force: true
+    owner: "{{ substrate_node_user }}"
+    group: "{{ substrate_node_group }}"
+    mode: 0644
+  no_log: true
+  when: substrate_node_key | length
+
+- name: Substrate Install | Ensure node key is removed if not specified
+  file:
+    state: absent
+    dest: "{{ _substrate_node_key_path }}"
+    force: true
+  no_log: true
+  when: substrate_node_key == ""
