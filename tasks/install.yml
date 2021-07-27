@@ -109,23 +109,4 @@
 - name: Substrate Install | Set fact
   set_fact:
     _binary_updated: true
-    # _backup_path: "{{ _release_push.backup_file | default('Undefined') }}"
-  when: _release_push.changed or _unarchive_push.changed or _download_output.changed
-
-- debug:
-    var: _binary_updated
-# - debug:
-#     var: _backup_path
-# - name: Substrate Install | Set fact
-#   set_fact:
-#     # _binary_updated: true
-#     _binary_updated: "{{ ('.tar.gz' not in substrate_node_source ) | ternary(true, false) }}"
-#     _backup_path: "{{ _push_output.backup_file | default('Undefined') }}"
-#   when: _push_output.changed
-
-# - name: Substrate Install | Set fact
-#   set_fact:
-#     # _binary_updated: true
-#     _binary_updated: "{{ ('://' in substrate_node_source ) | ternary(true, false) }}"
-#     _backup_path: "{{ _download_output.backup_file | default('Undefined') }}"
-#   when: _download_output.changed
+  when: (_release_push.changed is defined) or (_unarchive_push.changed is defined) or (_download_output.changed is defined)
