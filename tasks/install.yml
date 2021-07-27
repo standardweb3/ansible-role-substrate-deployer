@@ -52,7 +52,7 @@
         # backup: true
         backup: "{{ ('.tar.gz' not in substrate_node_source ) | ternary(true, false) }}"
         # force: true
-        force: "{{ ('.tar.gz' not in substrate_node_source ) | ternary(true, false) }}"
+        force: true
       register: _push_output
 
   when:
@@ -105,13 +105,17 @@
     force: true
   no_log: true
   when: substrate_node_key == ""
-# - name: Substrate Install | Set fact
-#   set_fact:
-#     _binary_updated: true
-#     _backup_path: "{{ _release_push.backup_file | default('Undefined') }}"
-#   when:
-#     _release_push.changed or _unarchive_push.changed or _download_output.changed
 
+- name: Substrate Install | Set fact
+  set_fact:
+    _binary_updated: true
+    # _backup_path: "{{ _release_push.backup_file | default('Undefined') }}"
+  when: _release_push.changed or _unarchive_push.changed or _download_output.changed
+
+- debug:
+    var: _binary_updated
+# - debug:
+#     var: _backup_path
 # - name: Substrate Install | Set fact
 #   set_fact:
 #     # _binary_updated: true
