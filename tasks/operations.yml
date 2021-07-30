@@ -49,12 +49,22 @@
     - rollback
 
 - name: Substrate Ops | Create Local Chainspec
-  command: |
-    {{ _substrate_node_bin_path }} build-spec \
-      --chain {{ substrate_node_chain }} \
-      --raw \
-      --disable-default-bootnode \
-      > {{ substrate_node_bin_dir }}{{ substrate_node_chain }}.json
+  block:
+    - name: Substrate Ops | Generate spec
+      command: |
+        {{ _substrate_node_bin_path }} build-spec \
+          --chain {{ substrate_node_chain }} \
+          --raw \
+          --disable-default-bootnode \
+          > {{ substrate_node_bin_dir }}{{ substrate_node_chain }}.json
+
+    - name: Substrate Ops | Fetch generated
+      ansible.builtin.fetch:
+        src: "{{ substrate_node_bin_dir }}/{{ item }}"
+        dest: ./
+      loop:
+        - "para-{{ substrate_node_parachain_id }}-wasm"
+        - "para-{{ substrate_node_parachain_id }}-wasm"
   tags:
     - never
     - chainspec
@@ -98,7 +108,7 @@
         {{ _substrate_node_bin_path }} export-genesis-wasm \
         --chain {{ substrate_node_chain }} \
         > ./para-{{ substrate_node_parachain_id }}-wasm
-    - name: Substrate Ops | Copy
+    - name: Substrate Ops | Fetch generated
       ansible.builtin.fetch:
         src: "{{ substrate_node_bin_dir }}/{{ item }}"
         dest: ./
@@ -107,7 +117,7 @@
         - "para-{{ substrate_node_parachain_id }}-wasm"
   tags:
     - never
-    - export_genesis
+    - export_collator_genesis
 
 - name: Substrate Ops | Purge all
   block:

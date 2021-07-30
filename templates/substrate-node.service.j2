@@ -14,6 +14,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_bootnodes | length %}
 --bootnodes {{ substrate_node_bootnodes }} \
 {% endif %}
+{% if substrate_node_key | length %}
+--node-key-file {{ _substrate_node_key_path }} \
+{% endif %}
 {% if substrate_node_ws_port is defined %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
@@ -35,6 +38,12 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_identity | length %}
 --{{ substrate_node_identity }} \
 {% endif %}
+{% if substrate_node_execution | length %}
+--execution {{ substrate_node_execution }} \
+{% endif %}
+{% if substrate_node_log_level | length %}
+--log {{ substrate_node_log_level }} \
+{% endif %}
 {% if substrate_node_prometheus_disable is true %}
 --no-prometheus \
 {% endif %}
@@ -51,6 +60,9 @@ ExecStart={{ substrate_node_bin_name }} \
 --validator \
 {% endif %}
 {% if substrate_node_role  | lower == "collator" %}
+{% if substrate_node_collator_flag is true %}
+--collator \
+{% endif %}
 --force-authoring \
 --parachain-id {{ substrate_node_parachain_id }} \
 {% endif %}
@@ -58,7 +70,18 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_role  | lower == "collator" %}
 -- \
 --execution wasm \
---chain {{ substrate_node_collator_chain }}
+{% if ssubstrate_node_collator_chain | length %}
+--chain {{ substrate_node_collator_chain }} \
+{% endif %}
+{% if substrate_node_collator_bootnodes | length %}
+--bootnodes {{ substrate_node_collator_bootnodes }} \
+{% endif %}
+{% if substrate_node_collator_p2p_port | length %}
+--port {{ substrate_node_collator_p2p_port }} \
+{% endif %}
+{% if substrate_node_collator_ws_port | length %}
+--ws-port {{ substrate_node_collator_ws_port }}
+{% endif %}
 {% endif %}
 
 {% if substrate_node_logging | lower == 'file' %}

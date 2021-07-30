@@ -19,17 +19,17 @@
 - name: Substrate Postflight | Set fact for subsequent plays
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
-    bootnode: "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
+    bootnode: >-
+      "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/
+      {{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
 
 - name: Substrate Postflight | Show output
   debug:
     msg:
       - ==============================================================
-      - Backup file: "{{ _backup_path | default('Undefined') }}"
       - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
       - Release version: "{{ substrate_node_latest_version | default(substrate_node_version) }}"
-      - ==============================================================
       - Peer ID: "{{ node_rpc_result.results[0].json.result | default('Undefined') }}"
       - Node Role: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
       - Node Version: "{{ node_rpc_result.results[2].json.result | default('Undefined') }}"

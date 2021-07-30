@@ -1,4 +1,29 @@
 ---
+- name: Substrate Prelim | Assert usage of systemd as an init system
+  assert:
+    that: ansible_service_mgr == 'systemd'
+    fail_msg: "This role only works with systemd"
+    success_msg: "Systemd used"
+
+# - name: Substrate Prelim | Node role specified
+#   fail:
+#     msg: "You need to specify node role."
+#   when: grafana_dashboards != [] and grafana_datasources == []
+
+# - name: Substrate Prelim | Fail when grafana admin user isn't set
+#   fail:
+#     msg: "Please specify grafana admin user (grafana_security.admin_user)"
+#   when:
+#     - grafana_security.admin_user == '' or
+#       grafana_security.admin_user is not defined
+
+# - name: Substrate Prelim | Fail when grafana_api_keys uses invalid role names
+#   fail:
+#     msg: "Check grafana_api_keys. The role can only be one of the following values: Viewer, Editor or Admin."
+#   when:
+#     - item.role not in ['Viewer', 'Editor', 'Admin']
+#   with_items: "{{ grafana_api_keys }}"
+
 - name: Substrate Prelim | RedHat Redendecies install
   block:
     - name: Substrate RedHat | Install selinux python packages [RHEL]
