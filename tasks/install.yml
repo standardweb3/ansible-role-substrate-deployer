@@ -52,7 +52,7 @@
 
 - name: Substrate Install | Unarchive
   block:
-    - name: Substrate Install | Unarchive a file on file
+    - name: Substrate Install | Unarchive the binary archive on remote
       ansible.builtin.unarchive:
         src: "{{ ( _push_output.dest is defined ) | ternary(_push_output.dest, _download_output.dest) }}"
         dest: /tmp
