@@ -22,20 +22,6 @@
     - substrate_node_data_dir
     - substrate_node_p2p_port
 
-- name: Substrate Prelim | Check node role is defined
-  assert: 
-    that: substrate_node_role | lower in ["validator", "collator", "rpc"]
-    fail_msg: Please specify node role - Validator, Collator or RPC
-    success_msg: Node role set
-
-# - name: Substrate Prelim | Fail when node role not set
-#   fail:
-#     msg: "Please specify node role - Validator, Collator or RPC"
-#   when:
-#     - substrate_node_role | lower == 'validator' or
-#       substrate_node_role | lower == 'collator' or
-#       substrate_node_role | lower == 'rpc'
-
 - name: Substrate Prelim | Check ports are numeric values
   assert: 
     that: 
@@ -50,13 +36,51 @@
     - substrate_node_ws_port
     - substrate_node_prometheus_port
 
+- name: Substrate Prelim | Check variables are booleans
+  assert: 
+    that: "{{ item }} | type_debug == 'bool'"
+    fail_msg: Variable must be boolean
+    success_msg: Boolean variable set correctly
+  loop:
+    - substrate_node_preflight
+    - substrate_node_install
+    - substrate_node_configure
+    - substrate_node_postflight
+    - substrate_node_operations
+    - substrate_node_selinux_enabled
+    - substrate_node_logrotate_conf_enable
+    - substrate_node_rpc_external
+    - substrate_node_ws_external
+    - substrate_node_prometheus_disable
+    - substrate_node_prometheus_external
+    - substrate_node_collator_flag
 
-# - name: Substrate Prelim | Fail when grafana_api_keys uses invalid role names
-#   fail:
-#     msg: "Check grafana_api_keys. The role can only be one of the following values: Viewer, Editor or Admin."
-#   when:
-#     - item.role not in ['Viewer', 'Editor', 'Admin']
-#   with_items: "{{ grafana_api_keys }}"
+- name: Substrate Prelim | Check logging option is properly defined
+  assert: 
+    that: substrate_node_logging | lower in ["syslog", "file"]
+    fail_msg: Logging must be set to 'syslog' or 'file'
+    success_msg: Logging option set correctly
+
+- name: Substrate Prelim | Check logging option is properly defined
+  assert: 
+    that: substrate_node_identity | lower in substrate_node_identity_options
+    fail_msg: Identity must be set to one of the pre-defined values
+    success_msg: Identity option set correctly
+  when: substrate_node_identity != ""
+
+- name: Substrate Prelim | Check pruning option is properly defined
+  assert: 
+    that: substrate_node_pruning | lower in ["archive", "constrained"]
+    fail_msg: Pruning must be set to 'archive' or 'constrained'
+    success_msg: Pruning option set correctly
+  when: substrate_node_pruning != ""
+
+- name: Substrate Prelim | Check node execution option is properly defined
+  assert: 
+    that: substrate_node_execution | lower in ["native", "wasm", "both", "nativeelsewasm"]
+    fail_msg: "Node Execution must be set to one of the following: Native | Wasm | Both | NativeElseWasm"
+    success_msg: Node execution option set correctly
+  when: substrate_node_execution != ""
 
 - name: Substrate Prelim | RedHat Redendecies install
   block:
