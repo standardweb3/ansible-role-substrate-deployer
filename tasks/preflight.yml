@@ -9,7 +9,7 @@
   assert: 
     that: "{{ item }} is defined"
     fail_msg: "Required variable {{ item }} is not defined"
-    success_msg: "Variable set"
+    success_msg: Variable set
   loop: 
     - substrate_node_role
     - substrate_node_friendly_name
@@ -22,13 +22,33 @@
     - substrate_node_data_dir
     - substrate_node_p2p_port
 
-- name: Substrate Prelim | Fail when node role not set
-  fail:
-    msg: "Please specify node role - Validator, Collator or RPC"
-  when:
-    - substrate_node_role | lower == 'validator' or
-      substrate_node_role | lower == 'collator' or
-      substrate_node_role | lower == 'rpc'
+- name: Substrate Prelim | Check node role is defined
+  assert: 
+    that: substrate_node_role | lower in ["validator", "collator", "rpc"]
+    fail_msg: Please specify node role - Validator, Collator or RPC
+    success_msg: Node role set
+
+# - name: Substrate Prelim | Fail when node role not set
+#   fail:
+#     msg: "Please specify node role - Validator, Collator or RPC"
+#   when:
+#     - substrate_node_role | lower == 'validator' or
+#       substrate_node_role | lower == 'collator' or
+#       substrate_node_role | lower == 'rpc'
+
+- name: Substrate Prelim | Check ports are numeric values
+  assert: 
+    that: 
+      - "{{ item }} is int"
+      - "{{ item }} > 0"
+      - "{{ item }} =< 65535"
+    fail_msg: Port must be numeric and uint16
+    success_msg: Port set properly
+  loop:
+    - substrate_node_p2p_port
+    - substrate_node_rpc_port
+    - substrate_node_ws_port
+    - substrate_node_prometheus_port
 
 - name: Substrate Prelim | Fail when ports are not numeric values
   fail:
