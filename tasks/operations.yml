@@ -26,6 +26,7 @@
     - name: Substrate Purge | Substrate Stop
       ansible.builtin.systemd:
         state: stopped
+        enabled: false
         name: "{{ substrate_node_bin_name }}"
 
     - name: Substrate Purge | Purge chain

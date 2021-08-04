@@ -5,24 +5,89 @@
     fail_msg: "This role only works with systemd"
     success_msg: "Systemd used"
 
-# - name: Substrate Prelim | Node role specified
-#   fail:
-#     msg: "You need to specify node role."
-#   when: grafana_dashboards != [] and grafana_datasources == []
+- name: Substrate Prelim | Check these vars are defined
+  assert:
+    that: "{{ item }} is defined"
+    fail_msg: "Required variable {{ item }} is not defined"
+    success_msg: Variable set
+  loop:
+    - substrate_node_role
+    - substrate_node_friendly_name
+    - substrate_node_source
+    - substrate_node_user
+    - substrate_node_group
+    - substrate_node_bin_name
+    - substrate_node_bin_dir
+    - substrate_node_logging
+    - substrate_node_data_dir
+    - substrate_node_p2p_port
 
-# - name: Substrate Prelim | Fail when grafana admin user isn't set
-#   fail:
-#     msg: "Please specify grafana admin user (grafana_security.admin_user)"
-#   when:
-#     - grafana_security.admin_user == '' or
-#       grafana_security.admin_user is not defined
+- name: Substrate Prelim | Check ports are numeric values
+  assert:
+    that:
+      - "{{ item }} | type_debug == 'int'"
+      - "{{ item }} > 0"
+      - "{{ item }} <= 65535"
+    fail_msg: Port must be numeric and uint16
+    success_msg: Port set properly
+  loop:
+    - substrate_node_p2p_port
+    - substrate_node_rpc_port
+    - substrate_node_ws_port
+    - substrate_node_prometheus_port
 
-# - name: Substrate Prelim | Fail when grafana_api_keys uses invalid role names
-#   fail:
-#     msg: "Check grafana_api_keys. The role can only be one of the following values: Viewer, Editor or Admin."
-#   when:
-#     - item.role not in ['Viewer', 'Editor', 'Admin']
-#   with_items: "{{ grafana_api_keys }}"
+- name: Substrate Prelim | Check variables are booleans
+  assert:
+    that: "{{ item }} | type_debug == 'bool'"
+    fail_msg: Variable must be boolean
+    success_msg: Boolean variable set correctly
+  loop:
+    - substrate_node_preflight
+    - substrate_node_install
+    - substrate_node_configure
+    - substrate_node_postflight
+    - substrate_node_operations
+    - substrate_node_selinux_enabled
+    - substrate_node_logrotate_conf_enable
+    - substrate_node_rpc_external
+    - substrate_node_ws_external
+    - substrate_node_prometheus_disable
+    - substrate_node_prometheus_external
+    - substrate_node_collator_flag
+
+- name: Substrate Prelim | Check logging option is properly defined
+  assert:
+    that: substrate_node_logging | lower in ["syslog", "file"]
+    fail_msg: Logging must be set to 'syslog' or 'file'
+    success_msg: Logging option set correctly
+
+- name: Substrate Prelim | Check identity option is properly defined
+  assert:
+    that: substrate_node_identity | lower in substrate_node_identity_options
+    fail_msg: Identity must be set to one of the pre-defined values
+    success_msg: Identity option set correctly
+  when: substrate_node_identity != ""
+
+- name: Substrate Prelim | Check RPC methods option is properly defined
+  assert:
+    that: substrate_node_rpc_methods | lower in ["auto", "safe", unsafe]
+    fail_msg: RPC methods must be set to Auto, Safe or Unsafe
+    success_msg: RPC methods option set correctly
+  when: substrate_node_rpc_methods != ""
+
+- name: Substrate Prelim | Check pruning option is properly defined
+  assert:
+    that: substrate_node_pruning | lower in ["archive", "constrained"]
+    fail_msg: Pruning must be set to 'archive' or 'constrained'
+    success_msg: Pruning option set correctly
+  when: substrate_node_pruning != ""
+
+- name: Substrate Prelim | Check node execution option is properly defined
+  assert:
+    that: substrate_node_execution | lower in ["native", "wasm", "both", "nativeelsewasm"]
+    fail_msg: "Node Execution must be set to one of the following: Native | Wasm | Both | NativeElseWasm"
+    success_msg: Node execution option set correctly
+  when: substrate_node_execution != ""
 
 - name: Substrate Prelim | RedHat Redendecies install
   block:
