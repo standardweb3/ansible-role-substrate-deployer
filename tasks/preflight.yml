@@ -39,7 +39,7 @@
 - name: Substrate Prelim | Check ports are numeric values
   assert: 
     that: 
-      - "{{ item }} is int"
+      - "{{ item }} | type_debug == 'int'"
       - "{{ item }} > 0"
       - "{{ item }} =< 65535"
     fail_msg: Port must be numeric and uint16
