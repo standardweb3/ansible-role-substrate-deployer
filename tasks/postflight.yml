@@ -20,8 +20,7 @@
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
     bootnode: >-
-      "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/
-      {{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
+      "/ip4/{{ hostvars[inventory_hostname]['public_ip_address'] }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
 
 - name: Substrate Postflight | Show output

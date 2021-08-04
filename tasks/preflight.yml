@@ -5,17 +5,39 @@
     fail_msg: "This role only works with systemd"
     success_msg: "Systemd used"
 
-# - name: Substrate Prelim | Node role specified
-#   fail:
-#     msg: "You need to specify node role."
-#   when: grafana_dashboards != [] and grafana_datasources == []
+- name: Substrate Prelim | Check these vars are defined
+  assert: 
+    that: "{{ item }} is defined"
+    fail_msg: "Required variable {{ item }} is not defined"
+    success_msg: "Variable set"
+  loop: 
+    - substrate_node_role
+    - substrate_node_friendly_name
+    - substrate_node_source
+    - substrate_node_user
+    - substrate_node_group
+    - substrate_node_bin_name
+    - substrate_node_bin_dir
+    - substrate_node_logging
+    - substrate_node_data_dir
+    - substrate_node_p2p_port
 
-# - name: Substrate Prelim | Fail when grafana admin user isn't set
-#   fail:
-#     msg: "Please specify grafana admin user (grafana_security.admin_user)"
-#   when:
-#     - grafana_security.admin_user == '' or
-#       grafana_security.admin_user is not defined
+- name: Substrate Prelim | Fail when node role not set
+  fail:
+    msg: "Please specify node role - Validator, Collator or RPC"
+  when:
+    - substrate_node_role | lower == 'validator' or
+      substrate_node_role | lower == 'collator' or
+      substrate_node_role | lower == 'rpc'
+
+- name: Substrate Prelim | Fail when ports are not numeric values
+  fail:
+    msg: "Ports must be numeric values"
+  when:
+    - substrate_node_p2p_port is not int or
+      substrate_node_rpc_port is not int or
+      substrate_node_ws_port is not int or
+      substrate_node_prometheus_port is not int
 
 # - name: Substrate Prelim | Fail when grafana_api_keys uses invalid role names
 #   fail:
