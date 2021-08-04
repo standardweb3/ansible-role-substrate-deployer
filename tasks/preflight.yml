@@ -6,11 +6,11 @@
     success_msg: "Systemd used"
 
 - name: Substrate Prelim | Check these vars are defined
-  assert: 
+  assert:
     that: "{{ item }} is defined"
     fail_msg: "Required variable {{ item }} is not defined"
     success_msg: Variable set
-  loop: 
+  loop:
     - substrate_node_role
     - substrate_node_friendly_name
     - substrate_node_source
@@ -23,8 +23,8 @@
     - substrate_node_p2p_port
 
 - name: Substrate Prelim | Check ports are numeric values
-  assert: 
-    that: 
+  assert:
+    that:
       - "{{ item }} | type_debug == 'int'"
       - "{{ item }} > 0"
       - "{{ item }} <= 65535"
@@ -37,7 +37,7 @@
     - substrate_node_prometheus_port
 
 - name: Substrate Prelim | Check variables are booleans
-  assert: 
+  assert:
     that: "{{ item }} | type_debug == 'bool'"
     fail_msg: Variable must be boolean
     success_msg: Boolean variable set correctly
@@ -56,27 +56,27 @@
     - substrate_node_collator_flag
 
 - name: Substrate Prelim | Check logging option is properly defined
-  assert: 
+  assert:
     that: substrate_node_logging | lower in ["syslog", "file"]
     fail_msg: Logging must be set to 'syslog' or 'file'
     success_msg: Logging option set correctly
 
 - name: Substrate Prelim | Check logging option is properly defined
-  assert: 
+  assert:
     that: substrate_node_identity | lower in substrate_node_identity_options
     fail_msg: Identity must be set to one of the pre-defined values
     success_msg: Identity option set correctly
   when: substrate_node_identity != ""
 
 - name: Substrate Prelim | Check pruning option is properly defined
-  assert: 
+  assert:
     that: substrate_node_pruning | lower in ["archive", "constrained"]
     fail_msg: Pruning must be set to 'archive' or 'constrained'
     success_msg: Pruning option set correctly
   when: substrate_node_pruning != ""
 
 - name: Substrate Prelim | Check node execution option is properly defined
-  assert: 
+  assert:
     that: substrate_node_execution | lower in ["native", "wasm", "both", "nativeelsewasm"]
     fail_msg: "Node Execution must be set to one of the following: Native | Wasm | Both | NativeElseWasm"
     success_msg: Node execution option set correctly
