@@ -61,12 +61,19 @@
     fail_msg: Logging must be set to 'syslog' or 'file'
     success_msg: Logging option set correctly
 
-- name: Substrate Prelim | Check logging option is properly defined
+- name: Substrate Prelim | Check identity option is properly defined
   assert:
     that: substrate_node_identity | lower in substrate_node_identity_options
     fail_msg: Identity must be set to one of the pre-defined values
     success_msg: Identity option set correctly
   when: substrate_node_identity != ""
+
+- name: Substrate Prelim | Check RPC methods option is properly defined
+  assert:
+    that: substrate_node_rpc_methods | lower in ["auto", "safe", unsafe]
+    fail_msg: RPC methods must be set to Auto, Safe or Unsafe
+    success_msg: RPC methods option set correctly
+  when: substrate_node_rpc_methods != ""
 
 - name: Substrate Prelim | Check pruning option is properly defined
   assert:
