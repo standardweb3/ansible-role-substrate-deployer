@@ -50,14 +50,6 @@
     - substrate_node_ws_port
     - substrate_node_prometheus_port
 
-- name: Substrate Prelim | Fail when ports are not numeric values
-  fail:
-    msg: "Ports must be numeric values"
-  when:
-    - substrate_node_p2p_port is not int or
-      substrate_node_rpc_port is not int or
-      substrate_node_ws_port is not int or
-      substrate_node_prometheus_port is not int
 
 # - name: Substrate Prelim | Fail when grafana_api_keys uses invalid role names
 #   fail:
