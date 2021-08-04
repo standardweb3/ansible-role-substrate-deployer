@@ -20,6 +20,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_ws_port is defined %}
 --ws-port {{ substrate_node_ws_port }} \
 {% endif %}
+{% if substrate_node_force_runtime | length %}
+--force-{{ substrate_node_force_runtime }}
+{% endif %}
 {% if substrate_node_ws_external is true %}
 --ws-external \
 {% endif %}

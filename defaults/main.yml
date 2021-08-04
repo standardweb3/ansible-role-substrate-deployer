@@ -51,7 +51,12 @@ substrate_node_data_dir: "/data"
 # levels: "error, warn, info, debug, trace"
 # example: substrate_node_log_level: "warn, txpool=debug, peerset=trace"
 substrate_node_log_level: ""
-substrate_node_identity_options: ["alice", "bob", "charlie", "dave", "eve", "ferdie", "one", "two", "dev"]
+substrate_node_force_runtime_options: ["kusama", "rococo", "westend"]
+# example: substrate_node_force_runtime_options: "rococo"
+substrate_node_force_runtime: ""
+substrate_node_identity_options:
+  ["alice", "bob", "charlie", "dave", "eve", "ferdie", "one", "two", "dev"]
+# example: substrate_node_identity: "alice"
 substrate_node_identity: ""
 substrate_node_key: ""
 # example: substrate_node_pruning: "archive" | "constrained"

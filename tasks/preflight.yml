@@ -68,6 +68,13 @@
     success_msg: Identity option set correctly
   when: substrate_node_identity != ""
 
+- name: Substrate Prelim | Check force runtime is properly defined
+  assert:
+    that: substrate_node_force_runtime | lower in substrate_node_force_runtime_options
+    fail_msg: Runtime must be set to one of the pre-defined values
+    success_msg: Force runtime option set correctly
+  when: substrate_node_force_runtime != ""
+
 - name: Substrate Prelim | Check RPC methods option is properly defined
   assert:
     that: substrate_node_rpc_methods | lower in ["auto", "safe", unsafe]
