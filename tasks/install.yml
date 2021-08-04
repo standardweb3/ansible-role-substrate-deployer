@@ -84,8 +84,8 @@
     force: true
     owner: "{{ substrate_node_user }}"
     group: "{{ substrate_node_group }}"
-    mode: 0644
-  # no_log: true
+    mode: 0744
+  no_log: true
   when: substrate_node_key | length
 
 - name: Substrate Install | Ensure node key is removed if not specified
@@ -93,7 +93,7 @@
     state: absent
     dest: "{{ _substrate_node_key_path }}"
     force: true
-  # no_log: true
+  no_log: true
   when: substrate_node_key == ""
 
 - name: Substrate Install | Set fact
