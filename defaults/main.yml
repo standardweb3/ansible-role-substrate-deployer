@@ -10,6 +10,7 @@ substrate_node_operations: true
 # example: substrate_node_version: '0.3.0'
 substrate_node_version: "latest"
 substrate_node_repository: "digitalnativeinc/standard-substrate"
+substrate_node_bin_name: "opportunity-standalone"
 substrate_node_source:
   "https://github.com/{{ substrate_node_repository }}/releases/download/\
   {{ substrate_node_latest_version | default(substrate_node_version) }}/\
@@ -18,7 +19,6 @@ substrate_node_releases: "https://api.github.com/repos/{{ substrate_node_reposit
 # substrate_node_get_url_headers: null
 substrate_node_selinux_enabled: false
 substrate_node_bin_dir: "/usr/local/bin/"
-substrate_node_bin_name: "opportunity-standalone"
 substrate_node_user: "standard"
 substrate_node_group: "{{ substrate_node_user }}"
 # example: substrate_node_restart: "always" | "on-failure"
