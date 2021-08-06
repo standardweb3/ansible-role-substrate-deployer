@@ -32,7 +32,9 @@
     - name: Substrate Purge | Purge chain
       command: |
         {{ _substrate_node_bin_path }} purge-chain -y \
+          {% if substrate_node_chain | length %}
           --chain {{ substrate_node_chain }} \
+          {% endif %}
           --base-path {{ substrate_node_data_dir }}
   tags:
     - never

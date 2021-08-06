@@ -83,8 +83,10 @@ substrate_node_prometheus_external: false
 substrate_node_collator_chain: ""
 substrate_node_collator_parachain_id: ""
 substrate_node_collator_bootnodes: ""
-substrate_node_collator_p2p_port: ""
-substrate_node_collator_ws_port: ""
+substrate_node_collator_p2p_port: "30334"
+substrate_node_collator_ws_port: "9945"
+substrate_node_collator_rpc_port: "9934"
+substrate_node_collator_prometheus_port: "9615"
 substrate_node_collator_flag: false
 
 # INTERNAL VARIABLES
