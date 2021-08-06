@@ -87,7 +87,7 @@ substrate_node_collator_p2p_port: "30334"
 substrate_node_collator_ws_port: "9945"
 substrate_node_collator_rpc_port: "9934"
 substrate_node_collator_prometheus_port: "9615"
-substrate_node_collator_flag: false
+substrate_node_collator_flag: true
 
 # INTERNAL VARIABLES
 _substrate_node_bin_path: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"

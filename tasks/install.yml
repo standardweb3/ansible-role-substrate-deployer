@@ -31,8 +31,7 @@
       until: _download_output is succeeded
       retries: 5
       delay: 2
-  when:
-    - '"://" in substrate_node_source'
+  when: '"://" in substrate_node_source'
 
 - name: Substrate Install | Push
   block:
@@ -47,8 +46,7 @@
         backup: "{{ ('.tar.gz' not in substrate_node_source ) | ternary(true, false) }}"
         force: true
       register: _push_output
-  when:
-    - '"://" not in substrate_node_source'
+  when: '"://" not in substrate_node_source'
 
 - name: Substrate Install | Unarchive
   block:
@@ -95,6 +93,16 @@
     force: true
   no_log: true
   when: substrate_node_key == ""
+
+- name: Substrate Install | Download collator chain spec
+  get_url:
+    url: substrate_node_collator_chain
+    dest: "{{ substrate_node_data_dir }}/{{ substrate_node_collator_chain | basename }}"
+    owner: "{{ substrate_node_user }}"
+    group: "{{ substrate_node_group }}"
+    mode: 0744
+    force: true
+  when: '"://" in substrate_node_collator_chain'
 
 - name: Substrate Install | Set fact
   set_fact:
