@@ -102,15 +102,19 @@
   block:
     - name: Substrate Ops | Export Genesis state
       command: |
-        {{ _substrate_node_bin_path }} export-genesis-state \
+        {{ substrate_node_bin_name }} export-genesis-state \
         --chain {{ substrate_node_chain }} \
         --parachain-id {{ substrate_node_parachain_id }} \
-        > ./para-{{ substrate_node_parachain_id }}-genesis
+        > para-{{ substrate_node_parachain_id }}-genesis
+      args:
+        chdir: "{{ _substrate_node_bin_path }}"
     - name: Substrate Ops | export Genesis WASM
       command: |
-        {{ _substrate_node_bin_path }} export-genesis-wasm \
+        {{ substrate_node_bin_name }} export-genesis-wasm \
         --chain {{ substrate_node_chain }} \
-        > ./para-{{ substrate_node_parachain_id }}-wasm
+        > para-{{ substrate_node_parachain_id }}-wasm
+      args:
+        chdir: "{{ _substrate_node_bin_path }}"
     - name: Substrate Ops | Fetch generated
       ansible.builtin.fetch:
         src: "{{ substrate_node_bin_dir }}/{{ item }}"
