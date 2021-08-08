@@ -86,10 +86,10 @@ ExecStart={{ substrate_node_bin_name }} \
 --ws-port {{ substrate_node_collator_ws_port }}
 {% endif %}
 {% if substrate_node_collator_rpc_port | length %}
---ws-port {{ substrate_node_collator_rpc_port }}
+--rpc-port {{ substrate_node_collator_rpc_port }}
 {% endif %}
 {% if substrate_node_collator_prometheus_port | length %}
---ws-port {{ substrate_node_collator_prometheus_port }}
+--prometheus-port {{ substrate_node_collator_prometheus_port }}
 {% endif %}
 {% endif %}
 
