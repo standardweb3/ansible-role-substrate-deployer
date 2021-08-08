@@ -103,9 +103,9 @@
     - name: Substrate Ops | Export Genesis state
       shell: |
         {{ substrate_node_bin_name }} export-genesis-state \
-        --chain {{ substrate_node_chain }} \
+        --raw \
         --parachain-id {{ substrate_node_parachain_id }} \
-        > para-{{ substrate_node_parachain_id }}-genesis
+        para-{{ substrate_node_parachain_id }}-genesis
       args:
         chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | export Genesis WASM
