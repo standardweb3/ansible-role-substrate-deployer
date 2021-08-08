@@ -101,7 +101,7 @@
 - name: Substrate Ops | Generate collator genesis state/wasm
   block:
     - name: Substrate Ops | Export Genesis state
-      command: |
+      shell: |
         {{ substrate_node_bin_name }} export-genesis-state \
         --chain {{ substrate_node_chain }} \
         --parachain-id {{ substrate_node_parachain_id }} \
@@ -109,7 +109,7 @@
       args:
         chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | export Genesis WASM
-      command: |
+      shell: |
         {{ substrate_node_bin_name }} export-genesis-wasm \
         --chain {{ substrate_node_chain }} \
         > para-{{ substrate_node_parachain_id }}-wasm
