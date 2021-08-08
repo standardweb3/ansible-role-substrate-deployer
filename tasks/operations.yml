@@ -107,14 +107,14 @@
         --parachain-id {{ substrate_node_parachain_id }} \
         > para-{{ substrate_node_parachain_id }}-genesis
       args:
-        chdir: "{{ _substrate_node_bin_path }}"
+        chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | export Genesis WASM
       command: |
         {{ substrate_node_bin_name }} export-genesis-wasm \
         --chain {{ substrate_node_chain }} \
         > para-{{ substrate_node_parachain_id }}-wasm
       args:
-        chdir: "{{ _substrate_node_bin_path }}"
+        chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | Fetch generated
       ansible.builtin.fetch:
         src: "{{ substrate_node_bin_dir }}/{{ item }}"
