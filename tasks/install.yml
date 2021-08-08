@@ -106,7 +106,7 @@
       register: download_spec
 
     - set_fact:
-        substrate_node_collator_chain: download_spec.dest
+        substrate_node_collator_chain: "{{ download_spec.dest }}"
   when: '"://" in substrate_node_collator_chain'
 
 - name: Substrate Install | Set fact
