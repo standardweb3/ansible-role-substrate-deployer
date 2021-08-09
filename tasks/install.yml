@@ -96,7 +96,8 @@
 
 - name: Substrate Install | Download chain spec if defined as URL
   block:
-    - get_url:
+    - name: Substrate Install | Download chain spec
+      get_url:
         url: "{{ substrate_node_chain }}"
         dest: "{{ substrate_node_data_dir }}/{{ substrate_node_chain | basename }}"
         owner: "{{ substrate_node_user }}"
@@ -111,7 +112,8 @@
 
 - name: Substrate Install | Download collator chain spec if defined as URL
   block:
-    - get_url:
+    - name: Substrate Install | Download collator chain spec
+      get_url:
         url: "{{ substrate_node_collator_chain }}"
         dest: "{{ substrate_node_data_dir }}/{{ substrate_node_collator_chain | basename }}"
         owner: "{{ substrate_node_user }}"
