@@ -77,7 +77,7 @@
 
 - name: Substrate Prelim | Check RPC methods option is properly defined
   assert:
-    that: substrate_node_rpc_methods | lower in ["auto", "safe", unsafe]
+    that: substrate_node_rpc_methods | lower in ["auto", "safe", "unsafe"]
     fail_msg: RPC methods must be set to Auto, Safe or Unsafe
     success_msg: RPC methods option set correctly
   when: substrate_node_rpc_methods != ""
