@@ -94,7 +94,22 @@
   no_log: true
   when: substrate_node_key == ""
 
-- name: Substrate Install | Download collator chain spec
+- name: Substrate Install | Download chain spec if defined as URL
+  block:
+    - get_url:
+        url: "{{ substrate_node_chain }}"
+        dest: "{{ substrate_node_data_dir }}/{{ substrate_node_chain | basename }}"
+        owner: "{{ substrate_node_user }}"
+        group: "{{ substrate_node_group }}"
+        mode: 0744
+        force: true
+      register: download_spec
+
+    - set_fact:
+        substrate_node_chain: "{{ download_spec.dest }}"
+  when: '"://" in substrate_node_chain'
+
+- name: Substrate Install | Download collator chain spec if defined as URL
   block:
     - get_url:
         url: "{{ substrate_node_collator_chain }}"
@@ -103,10 +118,10 @@
         group: "{{ substrate_node_group }}"
         mode: 0744
         force: true
-      register: download_spec
+      register: download_collator_spec
 
     - set_fact:
-        substrate_node_collator_chain: "{{ download_spec.dest }}"
+        substrate_node_collator_chain: "{{ download_collator_spec.dest }}"
   when: '"://" in substrate_node_collator_chain'
 
 - name: Substrate Install | Set fact
