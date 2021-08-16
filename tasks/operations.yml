@@ -32,7 +32,9 @@
     - name: Substrate Purge | Purge chain
       command: |
         {{ _substrate_node_bin_path }} purge-chain -y \
+          {% if substrate_node_chain | length %}
           --chain {{ substrate_node_chain }} \
+          {% endif %}
           --base-path {{ substrate_node_data_dir }}
   tags:
     - never
@@ -99,16 +101,20 @@
 - name: Substrate Ops | Generate collator genesis state/wasm
   block:
     - name: Substrate Ops | Export Genesis state
-      command: |
-        {{ _substrate_node_bin_path }} export-genesis-state \
-        --chain {{ substrate_node_chain }} \
+      shell: |
+        {{ substrate_node_bin_name }} export-genesis-state \
+        --raw \
         --parachain-id {{ substrate_node_parachain_id }} \
-        > ./para-{{ substrate_node_parachain_id }}-genesis
+        para-{{ substrate_node_parachain_id }}-genesis
+      args:
+        chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | export Genesis WASM
-      command: |
-        {{ _substrate_node_bin_path }} export-genesis-wasm \
+      shell: |
+        {{ substrate_node_bin_name }} export-genesis-wasm \
         --chain {{ substrate_node_chain }} \
-        > ./para-{{ substrate_node_parachain_id }}-wasm
+        > para-{{ substrate_node_parachain_id }}-wasm
+      args:
+        chdir: "{{ substrate_node_bin_dir }}"
     - name: Substrate Ops | Fetch generated
       ansible.builtin.fetch:
         src: "{{ substrate_node_bin_dir }}/{{ item }}"
@@ -122,7 +128,13 @@
 
 - name: Substrate Ops | Purge all
   block:
-    - name: Substrate Ops | Remove bin/data dir
+    - name: Substrate Purge All | Substrate Stop
+      ansible.builtin.systemd:
+        state: stopped
+        enabled: false
+        name: "{{ substrate_node_bin_name }}"
+
+    - name: Substrate Purge All | Remove bin/data dir
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
@@ -132,13 +144,13 @@
         - "/etc/logrotate.d/{{ substrate_node_bin_name }}"
         - "/var/log/{{ substrate_node_bin_name }}"
 
-    - name: Substrate Ops | Remove user
+    - name: Substrate Purge All | Remove user
       ansible.builtin.user:
         name: "{{ substrate_node_user }}"
         state: absent
         remove: true
 
-    - name: Substrate Ops | Remove group
+    - name: Substrate Purge All | Remove group
       ansible.builtin.group:
         name: "{{ substrate_node_group }}"
         state: absent

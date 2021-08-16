@@ -8,5 +8,5 @@ vars:
 core:
   - tasks/**/*
 
-github_actions:
+github-actions:
   - .github/**/*
