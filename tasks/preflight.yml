@@ -1,12 +1,17 @@
 ---
+- name: Substrate Prelim | Ping hosts
+  ping:
+
 - name: Substrate Prelim | Assert usage of systemd as an init system
   assert:
+    quiet: true
     that: ansible_service_mgr == 'systemd'
     fail_msg: "This role only works with systemd"
     success_msg: "Systemd used"
 
 - name: Substrate Prelim | Check these vars are defined
   assert:
+    quiet: true
     that: "{{ item }} is defined"
     fail_msg: "Required variable {{ item }} is not defined"
     success_msg: Variable set
@@ -24,6 +29,7 @@
 
 - name: Substrate Prelim | Check ports are numeric values
   assert:
+    quiet: true
     that:
       - "{{ item }} | type_debug == 'int'"
       - "{{ item }} > 0"
@@ -38,6 +44,7 @@
 
 - name: Substrate Prelim | Check variables are booleans
   assert:
+    quiet: true
     that: "{{ item }} | type_debug == 'bool'"
     fail_msg: Variable must be boolean
     success_msg: Boolean variable set correctly
@@ -57,12 +64,14 @@
 
 - name: Substrate Prelim | Check logging option is properly defined
   assert:
+    quiet: true
     that: substrate_node_logging | lower in ["syslog", "file"]
     fail_msg: Logging must be set to 'syslog' or 'file'
     success_msg: Logging option set correctly
 
 - name: Substrate Prelim | Check identity option is properly defined
   assert:
+    quiet: true
     that: substrate_node_identity | lower in substrate_node_identity_options
     fail_msg: Identity must be set to one of the pre-defined values
     success_msg: Identity option set correctly
@@ -70,6 +79,7 @@
 
 - name: Substrate Prelim | Check force runtime is properly defined
   assert:
+    quiet: true
     that: substrate_node_force_runtime | lower in substrate_node_force_runtime_options
     fail_msg: Runtime must be set to one of the pre-defined values
     success_msg: Force runtime option set correctly
@@ -77,6 +87,7 @@
 
 - name: Substrate Prelim | Check RPC methods option is properly defined
   assert:
+    quiet: true
     that: substrate_node_rpc_methods | lower in ["auto", "safe", "unsafe"]
     fail_msg: RPC methods must be set to Auto, Safe or Unsafe
     success_msg: RPC methods option set correctly
@@ -84,6 +95,7 @@
 
 - name: Substrate Prelim | Check pruning option is properly defined
   assert:
+    quiet: true
     that: substrate_node_pruning | lower in ["archive", "constrained"]
     fail_msg: Pruning must be set to 'archive' or 'constrained'
     success_msg: Pruning option set correctly
@@ -91,6 +103,7 @@
 
 - name: Substrate Prelim | Check node execution option is properly defined
   assert:
+    quiet: true
     that: substrate_node_execution | lower in ["native", "wasm", "both", "nativeelsewasm"]
     fail_msg: "Node Execution must be set to one of the following: Native | Wasm | Both | NativeElseWasm"
     success_msg: Node execution option set correctly
