@@ -65,7 +65,7 @@
 
     - name: Substrate Install | Move unarchived file
       ansible.builtin.copy:
-        src: "{{ _unarchive_output.dest }}/{{ _unarchive_output.files[0] }}"
+        src: "{{ _unarchive_output.dest }}/{{ substrate_node_bin_name }}"
         dest: "{{ _substrate_node_bin_path }}"
         remote_src: true
         owner: "{{ substrate_node_user }}"

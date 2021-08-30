@@ -2,7 +2,9 @@
 
 [Unit]
 Description={{ substrate_node_friendly_name }} Node
+Documentation=https://standard.tech
 After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart={{ substrate_node_bin_name }} \
