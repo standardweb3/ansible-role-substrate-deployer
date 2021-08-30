@@ -16,6 +16,7 @@ substrate_node_source:
   {{ substrate_node_latest_version | default(substrate_node_version) }}/\
   {{ substrate_node_bin_name }}-{{ ansible_system | lower }}-{{ ansible_architecture }}"
 substrate_node_releases: "https://api.github.com/repos/{{ substrate_node_repository }}/releases/latest"
+substrate_node_documentation: https://validator.standard.tech
 # substrate_node_get_url_headers: null
 substrate_node_selinux_enabled: false
 substrate_node_bin_dir: "/usr/local/bin/"
@@ -65,6 +66,7 @@ substrate_node_pruning: ""
 substrate_node_execution: ""
 substrate_node_chain: "opportunity"
 substrate_node_p2p_port: 30333
+# substrate_node_p2p_address:
 substrate_node_rpc_port: 9933
 substrate_node_rpc_external: false
 substrate_node_ws_port: 9944
