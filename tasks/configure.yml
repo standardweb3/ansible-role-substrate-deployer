@@ -16,6 +16,7 @@
     group: "{{ substrate_node_group }}"
     mode: "0644"
     trim_blocks: false
+    lstrip_blocks: true
   register: _node_template
 
 - name: Substrate Configure | Rotate logs before
