@@ -16,6 +16,7 @@ substrate_node_source:
   {{ substrate_node_latest_version | default(substrate_node_version) }}/\
   {{ substrate_node_bin_name }}-{{ ansible_system | lower }}-{{ ansible_architecture }}"
 substrate_node_releases: "https://api.github.com/repos/{{ substrate_node_repository }}/releases/latest"
+substrate_node_include_prereleases: false
 substrate_node_documentation: https://validator.standard.tech
 # substrate_node_get_url_headers: null
 substrate_node_selinux_enabled: false

@@ -77,6 +77,18 @@
     success_msg: Identity option set correctly
   when: substrate_node_identity != ""
 
+- name: Substrate Prelim | Check collator options are properly defined
+  assert:
+    quiet: true
+    that: "{{ item }} is defined"
+    fail_msg: "Required variable {{ item }} is not defined"
+    success_msg: Variable set
+  when: substrate_node_role  | lower == "collator"
+  loop:
+    - substrate_node_collator_chain
+    - substrate_node_collator_flag
+    - substrate_node_collator_p2p_port
+
 - name: Substrate Prelim | Check force runtime is properly defined
   assert:
     quiet: true
