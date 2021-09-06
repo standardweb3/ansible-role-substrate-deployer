@@ -10,25 +10,25 @@ Wants=network-online.target
 ExecStart={{ substrate_node_bin_name }} \
 --base-path {{ substrate_node_data_dir }} \
 --port {{ substrate_node_p2p_port }} \
-{% if substrate_node_chain | length +%}--chain {{ substrate_node_chain }} \{% endif %}
+{% if substrate_node_chain | length %}--chain {{ substrate_node_chain }} \{% endif %}
 {% if substrate_node_bootnodes | length +%}--bootnodes {{ substrate_node_bootnodes }} \{% endif %}
 {% if substrate_node_key | length -%}--node-key-file {{ _substrate_node_key_path }} \{% endif %}
-{% if substrate_node_ws_port is defined -%}--ws-port {{ substrate_node_ws_port -}} \{% endif %}
+{% if substrate_node_ws_port is defined -%}--ws-port {{ substrate_node_ws_port }} \{% endif %}
 {% if substrate_node_force_runtime | length %}--force-{{ substrate_node_force_runtime -}} \{% endif %}
 {% if substrate_node_ws_external is true %}--ws-external \{% endif %}
 {% if substrate_node_rpc_port is defined %}--rpc-port {{ substrate_node_rpc_port }} \{% endif %}
 {% if substrate_node_rpc_external is true %}--rpc-external \{% endif %}
-{% if substrate_node_rpc_cors | length %}--rpc-cors {{ substrate_node_rpc_cors }} \{% endif %}
-{%- if substrate_node_rpc_methods | length %}--rpc-methods {{ substrate_node_rpc_methods }} \{% endif %}
+{% if substrate_node_rpc_cors | length -%}--rpc-cors {{ substrate_node_rpc_cors }} \{% endif %}
+{% if substrate_node_rpc_methods | length -%}--rpc-methods {{ substrate_node_rpc_methods }} \{% endif %}
 {% if substrate_node_identity | length +%}--{{ substrate_node_identity }} \{% endif %}
-{%- if substrate_node_execution | length %}--execution {{ substrate_node_execution }} \{% endif %}
-{%- if substrate_node_log_level | length %}--log {{ substrate_node_log_level }} \{% endif %}
-{%- if substrate_node_prometheus_disable is true %}--no-prometheus \{% endif %}
-{%- if substrate_node_prometheus_disable is not true and substrate_node_prometheus_port is defined %}--prometheus-port {{ substrate_node_prometheus_port }} \{% endif %}
-{%- if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}--prometheus-external \{% endif %}
-{%- if substrate_node_pruning | length %}--pruning {{ substrate_node_pruning }} \{% endif %}
-{%- if substrate_node_role | lower == "validator" %}--validator \{% endif %}
-{%- if substrate_node_role  | lower == "collator" %}
+{% if substrate_node_execution | length -%}--execution {{ substrate_node_execution }} \{% endif %}
+{% if substrate_node_log_level | length -%}--log {{ substrate_node_log_level }} \{% endif %}
+{% if substrate_node_prometheus_disable is true %}--no-prometheus \{% endif %}
+{% if substrate_node_prometheus_disable is not true and substrate_node_prometheus_port is defined %}--prometheus-port {{ substrate_node_prometheus_port }} \{% endif %}
+{% if substrate_node_prometheus_external is true and substrate_node_prometheus_disable is not true %}--prometheus-external \{% endif %}
+{% if substrate_node_pruning | length +%}--pruning {{ substrate_node_pruning }} \{% endif %}
+{% if substrate_node_role | lower == "validator" +%}--validator \{% endif %}
+{% if substrate_node_role  | lower == "collator" %}
 {% if substrate_node_collator_flag is true %}--collator \{% endif %}
 --force-authoring \
 --parachain-id {{ substrate_node_parachain_id }} \
