@@ -41,7 +41,6 @@
     - substrate_node_rpc_port
     - substrate_node_ws_port
     - substrate_node_prometheus_port
-    - substrate_node_collator_parachain_id
 
 - name: Substrate Prelim | Check variables are booleans
   assert:
