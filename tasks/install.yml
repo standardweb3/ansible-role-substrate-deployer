@@ -89,7 +89,7 @@
     owner: "{{ substrate_node_user }}"
     group: "{{ substrate_node_group }}"
     mode: 0744
-  # no_log: true
+  no_log: true
   when: substrate_node_key | length
 
 - name: Substrate Install | Ensure node key is removed if not specified
@@ -97,7 +97,7 @@
     state: absent
     dest: "{{ _substrate_node_key_path }}"
     force: true
-  # no_log: true
+  no_log: true
   when: substrate_node_key == ""
 
 - name: Substrate Install | Download chain spec if defined as URL
@@ -115,6 +115,9 @@
     - set_fact:
         substrate_node_chain: "{{ download_spec.dest }}"
   when: '"://" in substrate_node_chain'
+  # loop:
+  #   - substrate_node_chain
+  #   - substrate_node_collator_chain
 
 - name: Substrate Install | Download collator chain spec if defined as URL
   block:
