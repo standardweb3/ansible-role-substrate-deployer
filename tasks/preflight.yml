@@ -41,6 +41,7 @@
     - substrate_node_rpc_port
     - substrate_node_ws_port
     - substrate_node_prometheus_port
+    - substrate_node_collator_parachain_id
 
 - name: Substrate Prelim | Check variables are booleans
   assert:
@@ -121,7 +122,7 @@
     success_msg: Node execution option set correctly
   when: substrate_node_execution != ""
 
-- name: Substrate Prelim | RedHat Redendecies install
+- name: Substrate Prelim | RedHat Dependencies Install
   block:
     - name: Substrate RedHat | Install selinux python packages [RHEL]
       package:
