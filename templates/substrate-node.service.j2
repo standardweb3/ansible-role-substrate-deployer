@@ -71,7 +71,7 @@ ExecStart={{ substrate_node_bin_name }} \
 --force-authoring \
 {% if substrate_node_parachain_id | length %}
 --parachain-id {{ substrate_node_parachain_id }} \
-{% if substrate_node_parachain_id | length %}
+{% endif %}
 {% endif %}
 --name "{{ substrate_node_friendly_name }}" \
 {% if substrate_node_role  | lower == "collator" %}
