@@ -20,7 +20,7 @@
 - name: Substrate Configure | Rotate logs before
   ansible.builtin.command: "logrotate -f /etc/logrotate.d/{{ substrate_node_bin_name }}"
   when:
-    - (_node_template.changed or _binary_updated | bool)
+    - (_node_template.changed or _binary_updated)
     - (substrate_node_logrotate_conf_enable | bool and substrate_node_logging | lower == "file")
 
 - name: Substrate Configure | Service start
