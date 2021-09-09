@@ -79,7 +79,9 @@
         backup: true
         force: true
       register: _unarchive_push
-  when: (_archive_source == true)
+  when:
+    - _archive_source is defined
+    - _archive_source | bool == True
 
 - name: Substrate Install | Create node key file
   copy:
