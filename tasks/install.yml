@@ -3,6 +3,8 @@
   set_fact:
     _binary_source: "{{ ('.tar.gz' in substrate_node_source) or ('.zip' in substrate_node_source) | ternary(true, false) }}"
     _remote_source: "{{ '"://" in substrate_node_source' | ternary(true, false) }}"
+    _remote_chainspec: "{{ '"://" in substrate_node_source' | ternary(true, false) }}"
+    _remote_collator_chainspec: "{{ '"://" in substrate_node_collator_chain' | ternary(true, false) }}"
 
 - name: Substrate Install | Pull latest tag
   block:
@@ -114,7 +116,7 @@
 
     - set_fact:
         substrate_node_chain: "{{ download_spec.dest }}"
-  when: '"://" in substrate_node_chain'
+  when: _remote_chainspec
   # loop:
   #   - substrate_node_chain
   #   - substrate_node_collator_chain
@@ -133,7 +135,7 @@
 
     - set_fact:
         substrate_node_collator_chain: "{{ download_collator_spec.dest }}"
-  when: '"://" in substrate_node_collator_chain'
+  when: _remote_collator_chainspec
 
 - name: Substrate Install | Set post-install facts
   set_fact:
