@@ -1,7 +1,7 @@
 ---
 - name: Substrate Install | Set pre-install facts
   set_fact:
-    _binary_source: "{{ ('.tar.gz' in substrate_node_source) or ('.zip' in substrate_node_source) | ternary(true, false) }}"
+    _binary_source: "{{ ('.tar.gz' in substrate_node_source) or ('.zip' in substrate_node_source) | ternary(false, true) }}"
     _remote_source: "{{ ('://' in substrate_node_source) | ternary(true, false) }}"
     _remote_chainspec: "{{ ('://' in substrate_node_source) | ternary(true, false) }}"
     _remote_collator_chainspec: "{{ ('://' in substrate_node_collator_chain) | ternary(true, false) }}"
