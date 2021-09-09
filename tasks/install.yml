@@ -26,13 +26,13 @@
       get_url:
         url: "{{ substrate_node_source }}"
         # need to try this: "{{ 'file' if item.stat.exists else 'touch' }}"
-        dest: "{{ (_archive_source != true) | ternary(_substrate_node_bin_path, '/tmp') }}"
+        dest: "{{ (_archive_source is defined) | ternary(_substrate_node_bin_path, '/tmp') }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         headers: "{{ substrate_node_get_url_headers | default(omit) }}"
         force: true
         mode: a+x
-        backup: "{{ (_archive_source != true) | ternary(true, false) }}"
+        backup: "{{ (_archive_source is defined) | ternary(true, false) }}"
       register: _download_output
       until: _download_output is succeeded
       retries: 5
@@ -44,12 +44,12 @@
     - name: Substrate Install | Push binary/archive from local system
       ansible.builtin.copy:
         src: "{{ substrate_node_source }}"
-        dest: "{{ (_archive_source != true) | ternary(_substrate_node_bin_path, '/tmp') }}"
+        dest: "{{ (_archive_source is defined) | ternary(_substrate_node_bin_path, '/tmp') }}"
         remote_src: false
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         mode: 0744
-        backup: "{{ (_archive_source != true) | ternary(true, false) }}"
+        backup: "{{ (_archive_source is defined) | ternary(true, false) }}"
         force: true
       register: _push_output
   when: '"://" not in substrate_node_source'
