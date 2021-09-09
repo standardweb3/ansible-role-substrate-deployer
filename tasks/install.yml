@@ -138,4 +138,4 @@
 - name: Substrate Install | Set fact
   set_fact:
     _binary_updated: true
-  when: _release_push.changed or _unarchive_push.changed or _download_output.changed
+  when: _unarchive_push.changed or _download_output.changed
