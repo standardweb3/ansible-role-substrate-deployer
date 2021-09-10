@@ -20,7 +20,7 @@
 - name: Substrate Postflight | Set fact for subsequent plays
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
-    bootnode: >-
+    external_address: >-
       "/ip4/{{ substrate_node_p2p_address | default(hostvars[inventory_hostname]['ansible_host']) }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
 
