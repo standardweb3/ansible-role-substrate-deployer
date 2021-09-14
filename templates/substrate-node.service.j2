@@ -82,6 +82,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_force_runtime | length %}
 --force-{{ substrate_node_collator_force_runtime }} \
 {% endif %}
+{% if substrate_node_collator_pruning | length %}
+--pruning {{ substrate_node_collator_pruning }} \
+{% endif %}
 {% if substrate_node_collator_bootnodes | length %}
 --bootnodes {{ substrate_node_collator_bootnodes }} \
 {% endif %}
