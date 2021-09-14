@@ -84,6 +84,7 @@ substrate_node_prometheus_external: false
 # Collator Variables
 #
 substrate_node_collator_chain: ""
+substrate_node_collator_execution: wasm
 substrate_node_collator_parachain_id: ""
 substrate_node_collator_bootnodes: ""
 substrate_node_collator_pruning: ""

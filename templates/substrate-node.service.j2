@@ -100,7 +100,7 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_prometheus_port is defined %}
 --prometheus-port {{ substrate_node_collator_prometheus_port }} \
 {% endif %}
---execution wasm
+--execution {{ substrate_node_collator_execution }}
 {% endif %}
 
 {% if substrate_node_logging | lower == 'file' %}
