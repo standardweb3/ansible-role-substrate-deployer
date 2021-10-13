@@ -27,7 +27,7 @@
     - name: Substrate Install | Download binary/archive
       get_url:
         url: "{{ substrate_node_source }}"
-        dest: "{{ _archive_source | ternary(_substrate_node_bin_path, '/tmp') }}"
+        dest: "{{ _archive_source | ternary('/tmp', _substrate_node_bin_path) }}"
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
         headers: "{{ substrate_node_get_url_headers | default(omit) }}"
@@ -45,7 +45,7 @@
     - name: Substrate Install | Push binary/archive from local system
       ansible.builtin.copy:
         src: "{{ substrate_node_source }}"
-        dest: "{{ _archive_source | ternary(_substrate_node_bin_path, '/tmp') }}"
+        dest: "{{ _archive_source | ternary('/tmp', _substrate_node_bin_path) }}"
         remote_src: false
         owner: "{{ substrate_node_user }}"
         group: "{{ substrate_node_group }}"
@@ -80,7 +80,7 @@
         backup: true
         force: true
       register: _unarchive_push
-  when: not _archive_source
+  when: _archive_source
 
 - name: Substrate Install | Create node key file
   copy:
