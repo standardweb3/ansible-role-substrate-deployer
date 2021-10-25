@@ -68,7 +68,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_flag is true %}
 --collator \
 {% endif %}
+{% if substrate_node_collator_force_authoring is true %}
 --force-authoring \
+{% endif %}
 {% if substrate_node_collator_parachain_id is defined %}
 --parachain-id {{ substrate_node_collator_parachain_id }} \
 {% endif %}
