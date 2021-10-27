@@ -62,7 +62,7 @@ ExecStart={{ substrate_node_bin_name }} \
 --pruning {{ substrate_node_pruning }} \
 {% endif %}
 {% if substrate_node_telemetry_url | length %}
---telemetry-url {{ substrate_node_telemetry_url }} \
+--telemetry-url '{{ substrate_node_telemetry_url }}' \
 {% endif %}
 {% if substrate_node_role | lower == "validator" %}
 --validator \
