@@ -77,7 +77,7 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_state_cache_size is defined %}
 --state-cache-size {{ substrate_node_state_cache_size }} \
 {% endif %}
-{% if substrate_node_collator_parachain_id is defined %}
+{% if substrate_node_collator_parachain_id | length %}
 --parachain-id {{ substrate_node_collator_parachain_id }} \
 {% endif %}
 {% endif %}
