@@ -10,29 +10,32 @@
   register: node_rpc_result
   with_items:
     - system_localPeerId
+    - system_name
     - system_nodeRoles
     - system_version
     - system_chain
     - system_chainType
     - net_peerCount
+    - system_name
 
 - name: Substrate Postflight | Set fact for subsequent plays
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
-    bootnode: >-
+    external_address: >-
       "/ip4/{{ substrate_node_p2p_address | default(hostvars[inventory_hostname]['ansible_host']) }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
+  ignore_errors: true
 
 - name: Substrate Postflight | Show output
   debug:
     msg:
       - ==============================================================
       - Data directory: "{{ substrate_node_data_dir | default('Undefined') }}"
-      - Release version: "{{ substrate_node_latest_version | default(substrate_node_version) }}"
       - Peer ID: "{{ node_rpc_result.results[0].json.result | default('Undefined') }}"
-      - Node Role: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
-      - Node Version: "{{ node_rpc_result.results[2].json.result | default('Undefined') }}"
-      - Chain: "{{ node_rpc_result.results[3].json.result | default('Undefined') }}"
-      - Chain Type: "{{ node_rpc_result.results[4].json.result | default('Undefined') }}"
-      - Peer Count: "{{ node_rpc_result.results[5].json.result | default('Undefined') }}"
+      - Node Name: "{{ node_rpc_result.results[1].json.result | default('Undefined') }}"
+      - Node Role: "{{ node_rpc_result.results[2].json.result | default('Undefined') }}"
+      - Node Version: "{{ node_rpc_result.results[3].json.result | default('Undefined') }}"
+      - Chain: "{{ node_rpc_result.results[4].json.result | default('Undefined') }}"
+      - Chain Type: "{{ node_rpc_result.results[5].json.result | default('Undefined') }}"
+      - Peer Count: "{{ node_rpc_result.results[6].json.result | default('Undefined') }}"
       - ==============================================================

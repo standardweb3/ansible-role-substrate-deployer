@@ -61,6 +61,9 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_pruning | length %}
 --pruning {{ substrate_node_pruning }} \
 {% endif %}
+{% if substrate_node_telemetry_url | length %}
+--telemetry-url '{{ substrate_node_telemetry_url }}' \
+{% endif %}
 {% if substrate_node_role | lower == "validator" %}
 --validator \
 {% endif %}
@@ -68,8 +71,15 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_flag is true %}
 --collator \
 {% endif %}
+{% if substrate_node_collator_force_authoring is true %}
 --force-authoring \
---parachain-id {{ substrate_node_parachain_id }} \
+{% endif %}
+{% if substrate_node_state_cache_size is defined %}
+--state-cache-size {{ substrate_node_state_cache_size }} \
+{% endif %}
+{% if substrate_node_collator_parachain_id is defined %}
+--parachain-id {{ substrate_node_collator_parachain_id }} \
+{% endif %}
 {% endif %}
 --name "{{ substrate_node_friendly_name }}" \
 {% if substrate_node_role  | lower == "collator" %}
@@ -77,22 +87,28 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_chain | length %}
 --chain {{ substrate_node_collator_chain }} \
 {% endif %}
+{% if substrate_node_collator_force_runtime | length %}
+--force-{{ substrate_node_collator_force_runtime }} \
+{% endif %}
+{% if substrate_node_collator_pruning | length %}
+--pruning {{ substrate_node_collator_pruning }} \
+{% endif %}
 {% if substrate_node_collator_bootnodes | length %}
 --bootnodes {{ substrate_node_collator_bootnodes }} \
 {% endif %}
-{% if substrate_node_collator_p2p_port | length %}
+{% if substrate_node_collator_p2p_port is defined %}
 --port {{ substrate_node_collator_p2p_port }} \
 {% endif %}
-{% if substrate_node_collator_ws_port | length %}
+{% if substrate_node_collator_ws_port is defined %}
 --ws-port {{ substrate_node_collator_ws_port }} \
 {% endif %}
-{% if substrate_node_collator_rpc_port | length %}
+{% if substrate_node_collator_rpc_port is defined %}
 --rpc-port {{ substrate_node_collator_rpc_port }} \
 {% endif %}
-{% if substrate_node_collator_prometheus_port | length %}
+{% if substrate_node_collator_prometheus_port is defined %}
 --prometheus-port {{ substrate_node_collator_prometheus_port }} \
 {% endif %}
---execution wasm
+--execution {{ substrate_node_collator_execution }}
 {% endif %}
 
 {% if substrate_node_logging | lower == 'file' %}

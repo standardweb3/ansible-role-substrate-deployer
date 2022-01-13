@@ -121,7 +121,7 @@
     success_msg: Node execution option set correctly
   when: substrate_node_execution != ""
 
-- name: Substrate Prelim | RedHat Redendecies install
+- name: Substrate Prelim | RedHat Dependencies Install
   block:
     - name: Substrate RedHat | Install selinux python packages [RHEL]
       package:

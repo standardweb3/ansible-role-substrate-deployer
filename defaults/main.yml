@@ -53,6 +53,7 @@ substrate_node_data_dir: "/data"
 # levels: "error, warn, info, debug, trace"
 # example: substrate_node_log_level: "warn, txpool=debug, peerset=trace"
 substrate_node_log_level: ""
+substrate_node_telemetry_url: ""
 substrate_node_force_runtime_options: ["kusama", "rococo", "westend"]
 # example: substrate_node_force_runtime_options: "rococo"
 substrate_node_force_runtime: ""
@@ -79,18 +80,23 @@ substrate_node_rpc_cors: ""
 substrate_node_prometheus_port: 9615
 substrate_node_prometheus_disable: false
 substrate_node_prometheus_external: false
+substrate_node_state_cache_size: null
 
 #
 # Collator Variables
 #
 substrate_node_collator_chain: ""
+substrate_node_collator_execution: wasm
 substrate_node_collator_parachain_id: ""
 substrate_node_collator_bootnodes: ""
-substrate_node_collator_p2p_port: "30334"
-substrate_node_collator_ws_port: "9945"
-substrate_node_collator_rpc_port: "9934"
-substrate_node_collator_prometheus_port: "9616"
+substrate_node_collator_pruning: ""
+substrate_node_collator_force_runtime: ""
+substrate_node_collator_p2p_port: 30334
+substrate_node_collator_ws_port: 9945
+substrate_node_collator_rpc_port: 9934
+substrate_node_collator_prometheus_port: 9616
 substrate_node_collator_flag: true
+substrate_node_collator_force_authoring: true
 
 # INTERNAL VARIABLES
 _substrate_node_bin_path: "{{ substrate_node_bin_dir }}{{ substrate_node_bin_name }}"
