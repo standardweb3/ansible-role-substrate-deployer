@@ -74,10 +74,10 @@ ExecStart={{ substrate_node_bin_name }} \
 {% if substrate_node_collator_force_authoring is true %}
 --force-authoring \
 {% endif %}
-{% if substrate_node_state_cache_size | length %}
+{% if substrate_node_state_cache_size is defined %}
 --state-cache-size {{ substrate_node_state_cache_size }} \
 {% endif %}
-{% if substrate_node_collator_parachain_id | length %}
+{% if substrate_node_collator_parachain_id is defined %}
 --parachain-id {{ substrate_node_collator_parachain_id }} \
 {% endif %}
 {% endif %}
