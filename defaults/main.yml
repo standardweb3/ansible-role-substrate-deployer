@@ -80,7 +80,7 @@ substrate_node_rpc_cors: ""
 substrate_node_prometheus_port: 9615
 substrate_node_prometheus_disable: false
 substrate_node_prometheus_external: false
-substrate_node_state_cache_size: null
+substrate_node_state_cache_size: ""
 
 #
 # Collator Variables
