@@ -18,11 +18,24 @@
     - net_peerCount
     - system_name
 
+- name: Substrate Postflight | Get public IP
+  community.general.ipify_facts:
+    timeout: 60
+    validate_certs: true
+  register: PUBLIC_IP
+  ignore_errors: true
+
+- name: Substrate Postflight | Backup public IP
+  shell: |
+    dig +short myip.opendns.com @resolver1.opendns.com
+  register: BACKUP_PUBLIC_IP
+  when: PUBLIC_IP.failed == true
+
 - name: Substrate Postflight | Set fact for subsequent plays
   set_fact:
     peer_id: "{{ node_rpc_result.results[0].json.result }}"
     external_address: >-
-      "/ip4/{{ substrate_node_p2p_address | default(hostvars[inventory_hostname]['ansible_host']) }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
+      "/ip4/{{ PUBLIC_IP.ansible_facts.ipify_public_ip | default(BACKUP_PUBLIC_IP.stdout) }}/tcp/{{ substrate_node_p2p_port }}/p2p/{{ node_rpc_result.results[0].json.result }}"
     cacheable: true
   ignore_errors: true
 

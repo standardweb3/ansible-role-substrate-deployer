@@ -68,7 +68,6 @@ substrate_node_pruning: ""
 substrate_node_execution: ""
 substrate_node_chain: "opportunity"
 substrate_node_p2p_port: 30333
-# substrate_node_p2p_address:
 substrate_node_rpc_port: 9933
 substrate_node_rpc_external: false
 substrate_node_ws_port: 9944
